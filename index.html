@@ -23,6 +23,7 @@
     --shadow: 0 10px 24px rgba(58,42,23,.18);
     --radius: 22px;
   }
+
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
   body{
@@ -31,6 +32,7 @@
     color: var(--ink);
     min-height:100vh;
   }
+
   h1,h2,h3,.display{font-family:'Chonburi', cursive; font-weight:400;}
   a{text-decoration:none;color:inherit;}
   button{font-family:'Mitr', sans-serif; cursor:pointer; border:none;}
@@ -45,30 +47,41 @@
     position: sticky; top:0; z-index: 50;
     box-shadow: var(--shadow);
   }
+
   .header-row{display:flex; align-items:center; justify-content:space-between; gap:14px;}
+
   .brand{display:flex; align-items:center; gap:12px;}
+
   .home-btn{
     width:46px;height:46px;border-radius:50%;
     background:var(--paper); display:flex;align-items:center;justify-content:center;
     box-shadow: inset 0 0 0 3px var(--gold-dark);
     font-size:20px;
   }
+
   .home-btn:hover{background:var(--gold-light);}
+
   .brand h1{color:var(--terracotta); font-size:26px; margin:0; letter-spacing:.5px;
     text-shadow: 1px 1px 0 #fff8e2;}
+
   .profile-chip{
     display:flex; align-items:center; gap:8px; background:var(--paper);
     padding:5px 12px 5px 5px; border-radius:30px; box-shadow: inset 0 0 0 2px var(--gold-dark);
   }
+
   .profile-chip .avatar{width:34px;height:34px;border-radius:50%;object-fit:cover; background:var(--leaf);}
+
   .profile-chip .lv{font-size:12px; font-weight:600; color:var(--ink-soft);}
+
   nav.tabs{
     display:flex; gap:6px; margin-top:12px; overflow-x:auto; padding-bottom:2px;
   }
+
   nav.tabs button{
     background:transparent; color:#6b4c14; font-size:15px; font-weight:600;
     padding:8px 16px; border-radius:14px 14px 0 0; white-space:nowrap;
   }
+
   nav.tabs button.active{background:var(--paper); color:var(--terracotta); box-shadow: var(--shadow);}
   nav.tabs button:hover:not(.active){background:rgba(255,255,255,.35);}
 
@@ -76,6 +89,7 @@
   main{
     max-width:1240px; margin:0 auto; padding: 22px 18px 80px;
   }
+
   .page{display:none; animation: fadeIn .35s ease;}
   .page.active{display:block;}
   @keyframes fadeIn{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;}}
@@ -470,7 +484,7 @@
   <!-- ACTIVITIES -->
   <section class="page" id="page-activities">
     <div class="hero-banner">
-      <img src="https://images.unsplash.com/photo-1580889240911-92bb0c2b0862?q=80&w=1400&auto=format&fit=crop" alt="กิจกรรม">
+      <img src="https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/event/rickroll.jpg" alt="กิจกรรม">
       <div class="hero-tag">มีกิจกรรมในช่วงนี้</div>
     </div>
     <div id="eventsList"></div>
@@ -625,39 +639,39 @@ const ZONE_LABEL = {
 const CATEGORY_LABEL = {natural:'ธรรมชาติ', temple:'วัด', food:'ร้านอาหาร/คาเฟ่', village:'หมู่บ้าน/ชุมชน'};
 
 const PLACES = [
-  {id:'p1', name:'สวนพฤกษศาสตร์สมเด็จพระนางเจ้าสิริกิติ์', cat:'natural', coins:100, xp:120, stars:4.6, dist:14, price:'100 บาท', zone:'อำเภอ แม่ริม', lat:18.9109, lng:98.8478,
+  {id:'p1', name:'สวนพฤกษศาสตร์สมเด็จพระนางเจ้าสิริกิติ์', alias:'นักสำรวจพฤกษชาติแห่งล้านนา', cat:'natural', coins:100, xp:120, stars:4.6, dist:14, price:'100 บาท', zone:'อำเภอ แม่ริม', lat:18.9109, lng:98.8478,
    img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/zone0-1.jpg',
    desc:'สวนพฤกษศาสตร์ขนาดใหญ่บนเชิงดอยสุเทพ ชมเรือนกระจกพันธุ์ไม้หายากและวิวภูเขาแบบพาโนรามา เหมาะกับการเดินเล่นถ่ายรูปทั้งวัน'},
 
-  {id:'p2', name:'ม่อนแจ่ม', cat:'natural', coins:56, xp:70, stars:4.7, dist:36, price:'56 บาท', zone:'อำเภอ แม่ริม', lat:18.9184, lng:98.7833,
+  {id:'p2', name:'ม่อนแจ่ม', alias:'ผู้สัมผัสสายลมและทะเลหมอกม่อนแจ่ม', cat:'natural', coins:56, xp:70, stars:4.7, dist:36, price:'56 บาท', zone:'อำเภอ แม่ริม', lat:18.9184, lng:98.7833,
    img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/ac711d30ecb88aa8.jpg',
    desc:'จุดชมวิวทะเลหมอกชื่อดังของเชียงใหม่ บรรยากาศเย็นสบายตลอดปี มีที่พักกลางไร่สตรอว์เบอร์รีให้เลือกมากมาย'},
 
-  {id:'p3', name:'บ้านแม่กำปอง', cat:'village', coins:59, xp:80, stars:4.5, dist:44, price:'ไม่มีค่าเข้า', zone:'อำเภอ แม่ออน', lat:18.8752, lng:99.1799,
+  {id:'p3', name:'บ้านแม่กำปอง', alias:'นักเดินทางสายสโลว์ไลฟ์แม่กำปอง', cat:'village', coins:59, xp:80, stars:4.5, dist:44, price:'ไม่มีค่าเข้า', zone:'อำเภอ แม่ออน', lat:18.8752, lng:99.1799,
    img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/e05e7577e537f819.jpg',
    desc:'หมู่บ้านเล็กๆ กลางหุบเขา มีร้านกาแฟ โฮมสเตย์ และสายหมอกยามเช้าที่สวยงาม เดินเที่ยวได้ทั้งวัน'},
 
-  {id:'p4', name:'น้ำตกแม่สา', cat:'natural', coins:67, xp:75, stars:4.3, dist:18, price:'40 บาท', zone:'อำเภอ แม่ริม', lat:18.9420, lng:98.9047,
+  {id:'p4', name:'น้ำตกแม่สา', alias:'ผู้คลายร้อนแห่งสายน้ำแม่สา', cat:'natural', coins:67, xp:75, stars:4.3, dist:18, price:'40 บาท', zone:'อำเภอ แม่ริม', lat:18.9420, lng:98.9047,
    img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/8df7ab98105b4423.jpg',
    desc:'น้ำตกหินปูนไหลลดหลั่นเป็นชั้นๆ ร่มรื่นด้วยป่าไม้ เหมาะกับการเล่นน้ำคลายร้อน'},
 
-  {id:'p5', name:'กิ่วแม่ปาน', cat:'natural', coins:70, xp:90, stars:4.8, dist:58, price:'ค่าธรรมเนียมอุทยาน', zone:'อำเภอ จอมทอง', lat:18.5314, lng:98.4870,
+  {id:'p5', name:'ดอยอินทนนท์ (กิ่วแม่ปาน)', alias:'ผู้พิชิตจุดสูงสุดประเทศไทย', cat:'natural', coins:70, xp:90, stars:4.8, dist:58, price:'ค่าธรรมเนียมอุทยาน', zone:'อำเภอ จอมทอง', lat:18.5314, lng:98.4870,
    img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/794f46245d32de32.jpg',
    desc:'เส้นทางศึกษาธรรมชาติบนดอยอินทนนท์ วิวทุ่งหญ้าและทะเลหมอกที่สวยที่สุดแห่งหนึ่งของไทย'},
 
-  {id:'p6', name:'อ่างแก้ว มช.', cat:'natural', coins:40, xp:45, stars:4.2, dist:6, price:'ฟรี', zone:'อำเภอเมือง เชียงใหม่', lat:18.8022, lng:98.9524,
+  {id:'p6', name:'อ่างแก้ว มช.', alias:'นักพักผ่อนสายชิลริมอ่างแก้ว', cat:'natural', coins:40, xp:45, stars:4.2, dist:6, price:'ฟรี', zone:'อำเภอเมือง เชียงใหม่', lat:18.8022, lng:98.9524,
    img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/7dd14e1eab112e71.jpg',
    desc:'อ่างเก็บน้ำกลางมหาวิทยาลัยเชียงใหม่ บรรยากาศร่มรื่น เหมาะปั่นจักรยานและนั่งพักผ่อน'},
 
-  {id:'p7', name:'วัดพระธาตุดอยสุเทพ', cat:'temple', coins:200, xp:150, stars:4.9, dist:15, price:'ฟรี (รถกระเช้า 100)', zone:'อำเภอ ดอยสะเก็ด', lat:18.8047, lng:98.9217,
+  {id:'p7', name:'วัดพระธาตุดอยสุเทพ', alias:'ผู้แสวงบุญดอยสุเทพ', cat:'temple', coins:200, xp:150, stars:4.9, dist:15, price:'ฟรี (รถกระเช้า 100)', zone:'อำเภอ ดอยสะเก็ด', lat:18.8047, lng:98.9217,
    img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/8a983479741b4705.jpg',
    desc:'วัดคู่บ้านคู่เมืองเชียงใหม่ บนยอดดอยสุเทพ ชมเจดีย์ทองอร่ามและวิวเมืองเชียงใหม่แบบ 360 องศา', event:{title:'งานทำบุญครั้งใหญ่', desc:'ในช่วงวันที่ 15 ถึงวันที่ 20 สิงหาคม วัดพระธาตุดอยสุเทพมีกิจกรรมงานทำบุญครั้งใหญ่ ขอเชิญร่วมกิจกรรม'}},
 
-  {id:'p8', name:'วัดดอยคำ', cat:'temple', coins:40, xp:55, stars:4.4, dist:9, price:'ฟรี', zone:'อำเภอ จอมทอง', lat:18.7710, lng:98.9535,
+  {id:'p8', name:'วัดดอยคำ', alias:'ผู้ศรัทธาหลวงพ่อทันใจ', cat:'temple', coins:40, xp:55, stars:4.4, dist:9, price:'ฟรี', zone:'อำเภอ จอมทอง', lat:18.7710, lng:98.9535,
    img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/17fade699cfe660e.jpg',
    desc:'วัดที่ประดิษฐานพระพุทธรูปองค์ใหญ่ สามารถชมวิวเมืองเชียงใหม่จากมุมสูงได้สวยงาม'},
 
-  {id:'p9', name:'วัดอุโมงค์', cat:'temple', coins:40, xp:55, stars:4.5, dist:7, price:'ฟรี', zone:'อำเภอ จอมทอง', lat:18.7930, lng:98.9410,
+  {id:'p9', name:'วัดอุโมงค์', alias:'นักสำรวจอุโมงค์ธรรมะโบราณ', cat:'temple', coins:40, xp:55, stars:4.5, dist:7, price:'ฟรี', zone:'อำเภอ จอมทอง', lat:18.7930, lng:98.9410,
    img:'https://images.unsplash.com/photo-1600100397608-59c3a3c4f9c3?q=80&w=1200&auto=format&fit=crop',
    desc:'วัดเก่าแก่ที่มีอุโมงค์โบราณให้เดินชม บรรยากาศร่มรื่นด้วยต้นไม้ใหญ่และสวนธรรมะ'},
 
@@ -665,7 +679,7 @@ const PLACES = [
    img:'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=1200&auto=format&fit=crop',
    desc:'ร้านอาหารสายคลีน วัตถุดิบผักออร์แกนิกปลูกเอง เมนูสลัดและสเต็กยอดนิยม'},
 
-  {id:'p11', name:'GREENSMOKED', cat:'food', coins:20, xp:25, stars:4.3, dist:5, price:'฿฿', zone:2, lat:18.7990, lng:98.9700,
+  {id:'p11', name:'GREENSMOKED', cat:'food', coins:20, xp:10000, stars:4.3, dist:5, price:'฿฿', zone:2, lat:18.7990, lng:98.9700,
    img:'https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1200&auto=format&fit=crop',
    desc:'ร้านอาหารรมควันบรรยากาศอบอุ่น เมนูซิกเนเจอร์ปลาและเนื้อรมควันสไตล์บาร์บีคิว'},
 
@@ -673,9 +687,25 @@ const PLACES = [
    img:'https://images.unsplash.com/photo-1559847844-5315695dadae?q=80&w=1200&auto=format&fit=crop',
    desc:'ร้านซีฟู้ดแซ่บสไตล์ไทย เมนูเด็ดกุ้งแม่น้ำผัดพริก และแกงร้อนรสจัดจ้าน'},
 
-  {id:'p13', name:'บ้านบ่อสร้าง', cat:'village', coins:35, xp:40, stars:4.1, dist:9, price:'ฟรี', zone:2, lat:18.7797, lng:99.0928,
+  {id:'p13', name:'บ้านบ่อสร้าง', alias:'ผู้สืบสานหัตถกรรมร่มบ่อสร้าง', cat:'village', coins:35, xp:40, stars:4.1, dist:9, price:'ฟรี', zone:2, lat:18.7797, lng:99.0928,
    img:'https://images.unsplash.com/photo-1466442929976-97f336a657be?q=80&w=1200&auto=format&fit=crop',
-   desc:'หมู่บ้านหัตถกรรมร่มบ่อสร้างชื่อดัง ชมการทำร่มกระดาษสาแบบดั้งเดิมและเลือกซื้อของฝาก'}
+   desc:'หมู่บ้านหัตถกรรมร่มบ่อสร้างชื่อดัง ชมการทำร่มกระดาษสาแบบดั้งเดิมและเลือกซื้อของฝาก'},
+
+  {id:'p14', name:'ศูนย์พัฒนาโครงการหลวงวัดจันทร์', alias:'ตามรอยพ่อ', cat:'natural', coins:50, xp:50, stars:4.3, dist:136, price:'ฟรี', zone:'อำเภอ กัลยาณิวัฒนา', lat:19.06822243204155, lng:98.29193583598456,
+   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/zone%2024/%E0%B8%A8%E0%B8%B9%E0%B8%99%E0%B8%A2%E0%B9%8C%E0%B8%9E%E0%B8%B1%E0%B8%92%E0%B8%99%E0%B8%B2%E0%B9%82%E0%B8%84%E0%B8%A3%E0%B8%87%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%AB%E0%B8%A5%E0%B8%A7%E0%B8%87%E0%B8%A7%E0%B8%B1%E0%B8%94%E0%B8%88%E0%B8%B1%E0%B8%99%E0%B8%97%E0%B8%A3%E0%B9%8C.png',
+   desc:'ศูนย์พัฒนาโครงการหลวงวัดจันทร์ ก่อกำเนิดขึ้นหลังจากที่ พระบาทสมเด็จพระบรมชนกาธิเบศร มหาภูมิพลอดุลยเดชมหาราช บรมนาถบพิตร ได้เสด็จพระราชดำเนินเยี่ยมเยียนราษฎรชาวเขาในเขตหมู่บ้านวัดจันทร์ เมื่อปี พ.ศ.2522 พระองค์ทรงทราบถึง ความยากลำบากของชาวเขาใน พื้นที่ จึงมีพระราชดำริให้มีการพัฒนาบ้านวัดจันทร์และหมู่บ้านใกล้เคียงเพื่อก่อตั้ง “ศูนย์พัฒนาโครงการหลวงวัดจันทร์” ขึ้น เพื่อช่วยให้สร้างอาชีพ สร้างรายได้ ให้ราษฎร เพื่อให้มีความเป็นอยู่ที่ดีขึ้นที่นี่เป็น แหล่งท่องไฮไลต์มีทิวทัศน์ ธรรมชาติสวยงาม ของป่าสนที่ใหญ่ที่สุดในประเทศไทย โดยพื้นที่โครงการหลวงวัดจันทร์ ที่คุ้นเคยของนัก ท่องเที่ยวคือ ที่องค์การอุตสาหกรรมป่าไม้ (อปป) และอีกหนึ่งจุดคือ ที่ตั้งของศูนย์พัฒนาโครงการหลวงวัดจันทร์ จะตั้งอยู่คนละพื้นที่ แต่ทั้งสองแห่งอยู่ในพื้นที่ดูแลของ โครงการหลวงเช่นกัน '},
+
+  {id:'p15', name:'สวนป่าหลวงวัดจันทร์ องค์การอุตสาหกรรมป่าไม้วัดจันทร์', alias:'สวนของพ่อ', cat:'natural', coins:50, xp:50, stars:4.1, dist:133, price:'ฟรี', zone:'อำเภอ กัลยาณิวัฒนา', lat:19.080741229922186, lng:98.33284747117878,
+   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/zone%2024/%E0%B8%AA%E0%B8%A7%E0%B8%99%E0%B8%9B%E0%B9%88%E0%B8%B2%E0%B8%AB%E0%B8%A5%E0%B8%A7%E0%B8%87%E0%B8%A7%E0%B8%B1%E0%B8%94%E0%B8%88%E0%B8%B1%E0%B8%99%E0%B8%97%E0%B8%A3%E0%B9%8C%20%E0%B8%AD%E0%B8%87%E0%B8%84%E0%B9%8C%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%AD%E0%B8%B8%E0%B8%95%E0%B8%AA%E0%B8%B2%E0%B8%AB%E0%B8%81%E0%B8%A3%E0%B8%A3%E0%B8%A1%E0%B8%9B%E0%B9%88%E0%B8%B2%E0%B9%84%E0%B8%A1%E0%B9%89%E0%B8%A7%E0%B8%B1%E0%B8%94%E0%B8%88%E0%B8%B1%E0%B8%99%E0%B8%97%E0%B8%A3%E0%B9%8C.jpg',
+   desc:'สวนป่าหลวงวัดจันทร์ องค์การอุตสาหกรรมป่าไม้วัดจันทร์ ก่อตั้งพร้อมกันกับ ศูนย์พัฒนาโครงการหลวงวัดจันทร์'},
+
+   {id:'p16', name:'น้ำตกโป่งสะแยง', alias:'น้ำตกโป่งสะแยง', cat:'natural', coins:100, xp:100, stars:4, dist:136+4, price:'ฟรี', zone:'อำเภอ กัลยาณิวัฒนา', lat:19.071976753237646, lng:98.30205611645135,
+   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/zone%2024/%E0%B8%99%E0%B9%89%E0%B8%B3%E0%B8%95%E0%B8%81%E0%B9%82%E0%B8%9B%E0%B9%88%E0%B8%87%E0%B8%AA%E0%B8%B0%E0%B9%81%E0%B8%A2%E0%B8%87.jpg',
+   desc:'เป็นน้ำตกธรรมชาติที่ตั้งอยู่ระหว่างทางจากบ้านขุนแม่รวมไปยังบ้านห้วยเขียดแห้ง เป็นจุดท่องเที่ยวเชิงธรรมชาติที่บรรยากาศเงียบสงบและน้ำใสเย็นสบาย *หมายเหตุ น้ำตกโป่งสะแยง ไม่มีสถานที่ที่ชัดเจนในแผนที่แต่คาดการว่า อยู่ที่ ตำบลแจ่มหลวง อำเภอกัลยาณิวัฒนา จังหวัดเชียงใหม่ ห่างจากหมู่บ้านประมาณ 4 กิโลเมตร*'},
+
+   {id:'p17', name:'ดอยโป่งกา', alias:'ดอยโป่งกา', cat:'natural', coins:200, xp:200, stars:4.1, dist:167, price:'ฟรี', zone:'อำเภอ กัลยาณิวัฒนา', lat:18.907864055008773, lng:98.19264496237363,
+   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/zone%2024/%E0%B8%94%E0%B8%AD%E0%B8%A2%E0%B9%82%E0%B8%9B%E0%B9%88%E0%B8%87%E0%B8%81%E0%B8%B2.jpg',
+   desc:'ดอยโป่งกา เป็นดอยหรือภูเขาที่ชาวบ้านขุนแม่รวมให้ความเคารพนับถือและถือว่าเป็นพื้นที่ศักดิ์สิทธิ์ เพราะในแต่ละปีชาวบ้านจะขึ้นไปบนยอดดอยทำพิธีสวดมนต์เพื่อขอให้ฟ้าฝนตกต้องตามฤดูกาล เป็นความเชื่อที่ผูกกับการทำกินและการอยู่ร่วมกับธรรมชาติของคนในพื้นที่อย่างแนบแน่น ความหมายของดอยจึงไม่ใช่แค่ “จุดชมวิว” แต่เป็นเหมือนพื้นที่รวมใจของชุมชนที่ทำหน้าที่ทั้งทางจิตวิญญาณและทางสังคมในเวลาเดียวกัน'},
 ];
 
 const AVATAR_DEFAULT = 'https://api.dicebear.com/7.x/adventurer/svg?seed=chiangmai-traveler&backgroundColor=f6cf6b';
@@ -1002,6 +1032,7 @@ function openModal(id){
       <span class="pill" style="background:var(--gold-light); border-color:var(--gold-dark);"><span class="coin-icon" style="display:inline-block;vertical-align:-2px;margin-right:6px;"></span>${p.coins} เหรียญ + ${p.xp} EXP</span>
     </div>
     <h2 class="modal-title">${p.name}</h2>
+    ${p.alias ? `<div style="color:var(--gold-dark); font-weight:600; margin-bottom:8px;">🎖️ ฉายาเฉพาะ: ${p.alias}</div>` : ''}
     <div class="modal-desc">${p.desc}</div>
     <div class="stat-row">
       <div class="stat-box">หมวดหมู่<b>${CATEGORY_LABEL[p.cat]}</b></div>
@@ -1116,15 +1147,23 @@ function renderProfile(){
     ? 'ยังไม่เคยเช็คอินที่ไหนเลย ลองเริ่มออกเดินทางแล้วกลับมาปลดฉายาที่นี่กันเถอะ!'
     : `เดินทางมาแล้ว ${visitedCount} สถานที่ สะสมเหรียญได้ ${state.coins} เหรียญ — เก็บให้ครบทุกหมวดเพื่อปลดฉายาใหม่!`;
 
-  // title badges based on category counts
+  // title badges based on category counts & specific place aliases
   const catCounts = {};
-  state.checkins.forEach(id=>{ const p = PLACES.find(x=>x.id===id); if(p) catCounts[p.cat]=(catCounts[p.cat]||0)+1; });
   const badges = [];
+  state.checkins.forEach(id=>{
+    const p = PLACES.find(x=>x.id===id);
+    if(p) {
+      catCounts[p.cat]=(catCounts[p.cat]||0)+1;
+      if(p.alias) badges.push(`🎖️ ${p.alias}`);
+    }
+  });
+
   if((catCounts.temple||0) >= 1) badges.push('🙏 ผู้แสวงบุญ');
   if((catCounts.natural||0) >= 2) badges.push('🌿 นักธรรมชาตินิยม');
   if((catCounts.food||0) >= 2) badges.push('🍜 นักชิมล้านนา');
   if(state.favorites.length >= 3) badges.push('💛 คอลเลกเตอร์');
   if(visitedCount >= PLACES.length) badges.push('🏆 พิชิตเชียงใหม่');
+
   document.getElementById('titleBadges').innerHTML = badges.length
     ? badges.map(b=>`<div class="badge-pill">${b}</div>`).join('')
     : `<div class="badge-pill" style="opacity:.6;">ยังไม่มีฉายา — ไปเที่ยวเพื่อปลดล็อกกันเลย!</div>`;
@@ -1143,7 +1182,7 @@ function renderAchievements(){
     items = state.checkins.map(id=>PLACES.find(p=>p.id===id)).filter(p=>p && p.cat===filterVal);
   }
   list.innerHTML = items.length
-    ? items.map(p=>`<div class="achieve-item"><span>${p.name}</span><span class="cnt">+${p.coins}🪙</span></div>`).join('')
+    ? items.map(p=>`<div class="achieve-item"><span>${p.name} ${p.alias ? `<br><small style="color:var(--gold); font-size:11px;">[ฉายา: ${p.alias}]</small>` : ''}</span><span class="cnt">+${p.coins}🪙</span></div>`).join('')
     : `<div class="achieve-item" style="justify-content:center; opacity:.6;">ยังไม่มีข้อมูลในหมวดนี้</div>`;
 }
 
