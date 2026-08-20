@@ -410,6 +410,7 @@
         <div class="carousel" id="car-temple"></div>
         <div class="arrow right" onclick="scrollCar('car-temple',1)">›</div>
       </div>
+
     </div>
   </section>
 
@@ -664,8 +665,8 @@ const PLACES = [
    desc:'อ่างเก็บน้ำกลางมหาวิทยาลัยเชียงใหม่ บรรยากาศร่มรื่น เหมาะปั่นจักรยานและนั่งพักผ่อน'},
 
   {id:'p7', name:'วัดพระธาตุดอยสุเทพ', alias:'ผู้แสวงบุญดอยสุเทพ', cat:'temple', coins:200, xp:150, stars:4.9, dist:15, price:'ฟรี (รถกระเช้า 100)', zone:'อำเภอ ดอยสะเก็ด', lat:18.8047, lng:98.9217,
-   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/8a983479741b4705.jpg',
-   desc:'วัดคู่บ้านคู่เมืองเชียงใหม่ บนยอดดอยสุเทพ ชมเจดีย์ทองอร่ามและวิวเมืองเชียงใหม่แบบ 360 องศา', event:{title:'งานทำบุญครั้งใหญ่', desc:'ในช่วงวันที่ 15 ถึงวันที่ 20 สิงหาคม วัดพระธาตุดอยสุเทพมีกิจกรรมงานทำบุญครั้งใหญ่ ขอเชิญร่วมกิจกรรม'}},
+   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/zone1/8.jpg',
+   desc:'วัดคู่บ้านคู่เมืองเชียงใหม่ บนยอดดอยสุเทพ ชมเจดีย์ทองอร่ามและวิวเมืองเชียงใหม่แบบ 360 องศา', event:{title:'งานทำบุญครั้งใหญ่', desc:'ในช่วงวันที่ 15 ถึงวันที่ 28 สิงหาคม วัดพระธาตุดอยสุเทพมีกิจกรรมงานทำบุญครั้งใหญ่ ขอเชิญร่วมกิจกรรม'}},
 
   {id:'p8', name:'วัดดอยคำ', alias:'ผู้ศรัทธาหลวงพ่อทันใจ', cat:'temple', coins:40, xp:55, stars:4.4, dist:9, price:'ฟรี', zone:'อำเภอ จอมทอง', lat:18.7710, lng:98.9535,
    img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/17fade699cfe660e.jpg',
@@ -699,13 +700,58 @@ const PLACES = [
    img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/zone%2024/%E0%B8%AA%E0%B8%A7%E0%B8%99%E0%B8%9B%E0%B9%88%E0%B8%B2%E0%B8%AB%E0%B8%A5%E0%B8%A7%E0%B8%87%E0%B8%A7%E0%B8%B1%E0%B8%94%E0%B8%88%E0%B8%B1%E0%B8%99%E0%B8%97%E0%B8%A3%E0%B9%8C%20%E0%B8%AD%E0%B8%87%E0%B8%84%E0%B9%8C%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%AD%E0%B8%B8%E0%B8%95%E0%B8%AA%E0%B8%B2%E0%B8%AB%E0%B8%81%E0%B8%A3%E0%B8%A3%E0%B8%A1%E0%B8%9B%E0%B9%88%E0%B8%B2%E0%B9%84%E0%B8%A1%E0%B9%89%E0%B8%A7%E0%B8%B1%E0%B8%94%E0%B8%88%E0%B8%B1%E0%B8%99%E0%B8%97%E0%B8%A3%E0%B9%8C.jpg',
    desc:'สวนป่าหลวงวัดจันทร์ องค์การอุตสาหกรรมป่าไม้วัดจันทร์ ก่อตั้งพร้อมกันกับ ศูนย์พัฒนาโครงการหลวงวัดจันทร์'},
 
-   {id:'p16', name:'น้ำตกโป่งสะแยง', alias:'น้ำตกโป่งสะแยง', cat:'natural', coins:100, xp:100, stars:4, dist:136+4, price:'ฟรี', zone:'อำเภอ กัลยาณิวัฒนา', lat:19.071976753237646, lng:98.30205611645135,
+  {id:'p16', name:'น้ำตกโป่งสะแยง', alias:'น้ำตกโป่งสะแยง', cat:'natural', coins:40, xp:100, stars:4, dist:136+4, price:'ฟรี', zone:'อำเภอ กัลยาณิวัฒนา', lat:19.071976753237646, lng:98.30205611645135,
    img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/zone%2024/%E0%B8%99%E0%B9%89%E0%B8%B3%E0%B8%95%E0%B8%81%E0%B9%82%E0%B8%9B%E0%B9%88%E0%B8%87%E0%B8%AA%E0%B8%B0%E0%B9%81%E0%B8%A2%E0%B8%87.jpg',
    desc:'เป็นน้ำตกธรรมชาติที่ตั้งอยู่ระหว่างทางจากบ้านขุนแม่รวมไปยังบ้านห้วยเขียดแห้ง เป็นจุดท่องเที่ยวเชิงธรรมชาติที่บรรยากาศเงียบสงบและน้ำใสเย็นสบาย *หมายเหตุ น้ำตกโป่งสะแยง ไม่มีสถานที่ที่ชัดเจนในแผนที่แต่คาดการว่า อยู่ที่ ตำบลแจ่มหลวง อำเภอกัลยาณิวัฒนา จังหวัดเชียงใหม่ ห่างจากหมู่บ้านประมาณ 4 กิโลเมตร*'},
 
-   {id:'p17', name:'ดอยโป่งกา', alias:'ดอยโป่งกา', cat:'natural', coins:200, xp:200, stars:4.1, dist:167, price:'ฟรี', zone:'อำเภอ กัลยาณิวัฒนา', lat:18.907864055008773, lng:98.19264496237363,
+  {id:'p17', name:'ดอยโป่งกา', alias:'ดอยโป่งกา', cat:'natural', coins:80, xp:200, stars:4.1, dist:167, price:'ฟรี', zone:'อำเภอ กัลยาณิวัฒนา', lat:18.907864055008773, lng:98.19264496237363,
    img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/zone%2024/%E0%B8%94%E0%B8%AD%E0%B8%A2%E0%B9%82%E0%B8%9B%E0%B9%88%E0%B8%87%E0%B8%81%E0%B8%B2.jpg',
    desc:'ดอยโป่งกา เป็นดอยหรือภูเขาที่ชาวบ้านขุนแม่รวมให้ความเคารพนับถือและถือว่าเป็นพื้นที่ศักดิ์สิทธิ์ เพราะในแต่ละปีชาวบ้านจะขึ้นไปบนยอดดอยทำพิธีสวดมนต์เพื่อขอให้ฟ้าฝนตกต้องตามฤดูกาล เป็นความเชื่อที่ผูกกับการทำกินและการอยู่ร่วมกับธรรมชาติของคนในพื้นที่อย่างแนบแน่น ความหมายของดอยจึงไม่ใช่แค่ “จุดชมวิว” แต่เป็นเหมือนพื้นที่รวมใจของชุมชนที่ทำหน้าที่ทั้งทางจิตวิญญาณและทางสังคมในเวลาเดียวกัน'},
+
+  {id:'p18', name:'วัดจันทร์(วิหารแว่นตาดำ)', alias:'แดดแรง', cat:'temple', coins:30, xp:100, stars:4.7, dist:136, price:'ฟรี', zone:'อำเภอ กัลยาณิวัฒนา', lat:18.907864055008773, lng:98.19264496237363,
+   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/zone%2024/%E0%B8%A7%E0%B8%B1%E0%B8%94%E0%B8%88%E0%B8%B1%E0%B8%99%E0%B8%97%E0%B8%A3%E0%B9%8C.jpg',
+   desc:'วัดจันทร์ ตั้งอยู่ที่ตำบลบ้านจันทร์ อำเภอกัลยาณิวัฒนา จังหวัดเชียงใหม่ สร้างมานานกว่า 300 ปี มีความโดดเด่น คือ วิหารแว่นตาดำ ลักษณะคล้ายคนสวมแว่นตา'},
+
+  {id:'p19', name:'นานา ลาบขม', cat:'food', coins:20, xp:30, stars:5, dist:141, price:'฿฿', zone:'อำเภอ กัลยาณิวัฒนา', lat:19.041569826740172, lng:98.27018271738439, 
+   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/zone%2024/%E0%B8%99%E0%B8%B2%E0%B8%99%E0%B8%B2%20%E0%B8%A5%E0%B8%B2%E0%B8%9A%E0%B8%82%E0%B8%A1.jpg',
+   desc:'นานา ลาบขมเตรียมมอบความแซ่บหลายแก่ผู้รับประทาน'},
+
+  {id:'p20', name:'ร้านครัวริมทุ่ง', cat:'food', coins:20, xp:30, stars:4.7, dist:137, price:'฿฿', zone:'อำเภอ กัลยาณิวัฒนา', lat:19.06324239035284, lng:98.28917225457371,  
+   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/zone%2024/%E0%B8%A3%E0%B9%89%E0%B8%B2%E0%B8%99%E0%B8%84%E0%B8%A3%E0%B8%B1%E0%B8%A7%E0%B8%A3%E0%B8%B4%E0%B8%A1%E0%B8%97%E0%B8%B8%E0%B9%88%E0%B8%87%20RimTung.jpg',
+   desc:'ร้านครัวริมทุ่ง'},
+
+  {id:'p21', name:'Chan Coffee', cat:'food', coins:35, xp:30, stars:4.8, dist:135, price:'฿', zone:'อำเภอ กัลยาณิวัฒนา', lat:19.072858680381803, lng:98.30367304424222,  
+   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/zone%2024/Chan%20Coffee.png',
+   desc:'ร้านกาแฟสไตล์ minimal'},
+
+  {id:'p22', name:'Porwa Pizza & drip coffee', alias:'mama miya', cat:'food', coins:35, xp:30, stars:4.9, dist:134, price:'฿฿', zone:'อำเภอ กัลยาณิวัฒนา', lat:19.071537083101692, lng:98.30339023930769,
+   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/zone%2024/Porwa%20Pizza%20%26%20drip%20coffee.png',
+   desc:'ร้านพิชช่า จากแดนเหนือ'},
+
+  {id:'p23', name:'สดชื่นแจ่มใส คอฟฟี่88-coffee slow bar.', cat:'food', coins:35, xp:30, stars:4.9, dist:137, price:'฿', zone:'อำเภอ กัลยาณิวัฒนา', lat:19.083336881383907, lng:98.3235577213805,  
+   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/zone%2024/%E0%B8%AA%E0%B8%94%E0%B8%8A%E0%B8%B7%E0%B9%88%E0%B8%99%E0%B9%81%E0%B8%88%E0%B9%88%E0%B8%A1%E0%B9%83%E0%B8%AA%20%E0%B8%84%E0%B8%AD%E0%B8%9F%E0%B8%9F%E0%B8%B5%E0%B9%8888-coffee%20slow%20bar..png',
+   desc:'สดชื่น'},
+
+  {id:'p24', name:'ประตูท่าแพ', alias:'ประตูสู่เชียงใหม่', cat:'village', coins:35, xp:30, stars:5, dist:0, price:'0', zone:'อำเภอเมือง เชียงใหม่', lat:18.78780583802771, lng:98.99336830161353,   
+   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/zone1/1.jpg',
+   desc:'แลนด์มาร์กสำคัญใจกลางเมือง จุดถ่ายรูปยอดนิยมและลานกิจกรรม'},
+
+  {id:'p25', name:'วัดเจดีย์หลวงวรวิหาร', alias:'วัดเจดีย์หลวงวรวิหาร', cat:'temple', coins:35, xp:30, stars:5, dist:0, price:'0', zone:'อำเภอเมือง เชียงใหม่', lat:18.78697090384805, lng:98.98657923315179,    
+   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/zone1/2.jpg',
+   desc:'วัดเก่าแก่กลางเมืองที่มีซากเจดีย์ใหญ่ที่สุดในเชียงใหม่'},
+
+  {id:'p26', name:'ถนนนิมมานเหมินท์', alias:'ถนนนิมมานเหมินท์', cat:'village', coins:35, xp:30, stars:5, dist:0, price:'0', zone:'อำเภอเมือง เชียงใหม่', lat:18.79582838430761, lng:98.96581010333043,
+   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/zone1/3.jpg',
+   desc:'ย่านช้อปปิ้ง คาเฟ่ และไลฟ์สไตล์ที่ทันสมัยของคนรุ่นใหม่'},
+
+  {id:'p27', name:'วัดหลวงขุนวิน', alias:'วัดหลวงขุนวิน', cat:'temple', coins:35, xp:30, stars:5, dist:0, price:'0', zone:'อำเภอ แม่วาง', lat:18.79582838430761, lng:98.96581010333043,
+   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/zone22/1.jpg',
+   desc:'วัดไม้โบราณกลางลึกในป่าลึก สงบร่มเย็นและงดงามมาก'},
+
+  {id:'p28', name:'น้ำตกแม่สะป๊อก', alias:'น้ำตกแม่สะป๊อก', cat:'natural', coins:35, xp:30, stars:5, dist:0, price:'0', zone:'อำเภอ แม่วาง', lat:18.79582838430761, lng:98.96581010333043,
+   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/zone22/2.jpg',
+   desc:'น้ำตกธรรมชาติสายเล็ก เล่นน้ำและพักผ่อนหย่อนใจได้'},
+
 ];
 
 const AVATAR_DEFAULT = 'https://api.dicebear.com/7.x/adventurer/svg?seed=chiangmai-traveler&backgroundColor=f6cf6b';
@@ -947,9 +993,18 @@ function cardHTML(p){
     </div>`;
 }
 function renderCarousels(){
-  document.getElementById('car-featured').innerHTML = PLACES.slice(0,8).map(cardHTML).join('');
-  document.getElementById('car-food').innerHTML = PLACES.filter(p=>p.cat==='food').map(cardHTML).join('');
-  document.getElementById('car-temple').innerHTML = PLACES.filter(p=>p.cat==='temple').map(cardHTML).join('');
+  const featuredPlaces = PLACES.filter(p => p.stars >= 4.0);
+  document.getElementById('car-featured').innerHTML = featuredPlaces.map(cardHTML).join('');
+
+  const foodPlaces = PLACES
+    .filter(p => p.cat === 'food')
+    .sort((a, b) => b.coins - a.coins);
+  document.getElementById('car-food').innerHTML = foodPlaces.map(cardHTML).join('');
+
+  const templePlaces = PLACES
+    .filter(p => p.cat === 'temple')
+    .sort((a, b) => b.coins - a.coins);
+  document.getElementById('car-temple').innerHTML = templePlaces.map(cardHTML).join('');
 }
 function scrollCar(id, dir){
   document.getElementById(id).scrollBy({left: dir*260, behavior:'smooth'});
@@ -1220,7 +1275,6 @@ function initAiPage(){
     chatHistory.push('init');
   }
 }
-
 initAiPage();
 initApp();
 </script>
