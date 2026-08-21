@@ -459,6 +459,7 @@
         <button class="chip" data-zone="22">อำเภอ แม่ออน</button>
         <button class="chip" data-zone="23">อำเภอ ดอยหล่อ</button>
         <button class="chip" data-zone="24">อำเภอ กัลยาณิวัฒนา</button>
+        <button class="chip" data-zone="24">DEBUG_MODE</button>
       </div>
       <button class="go-btn" onclick="runSearch()">🔍 ค้นหาสถานที่ให้ฉัน</button>
     </div>
@@ -634,6 +635,7 @@ const ZONE_LABEL = {
   22: 'อำเภอ แม่ออน',
   23: 'อำเภอ ดอยหล่อ',
   24: 'อำเภอ กัลยาณิวัฒนา',
+  25: 'DEBUG_MODE'
 };
 
 /* ============ DATA ============ */
@@ -752,10 +754,13 @@ const PLACES = [
    img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/zone22/2.jpg',
    desc:'น้ำตกธรรมชาติสายเล็ก เล่นน้ำและพักผ่อนหย่อนใจได้'},
 
-    {id:'p29', name:'DEBUG_MODE', cat:'natural', coins:999999, xp:3000000, stars:5, dist:0, price:'0', zone:'อำเภอเมือง เชียงใหม่', lat:18.79582838430761, lng:98.96581010333043,
+    {id:'p29', name:'coin fixd', cat:'natural', coins:1000000, xp:0, stars:5, dist:0, price:'0', zone:'DEBUG_MODE', lat:18.79582838430761, lng:98.96581010333043,
    img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/onlything.png',
    desc:'DEBUG_MODE'},
 
+    {id:'p30', name:'xp fixd', cat:'natural', coins:0, xp:1000000, stars:5, dist:0, price:'0', zone:'DEBUG_MODE', lat:18.79582838430761, lng:98.96581010333043,
+   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/onlything.png',
+   desc:'DEBUG_MODE'},
 ];
 
 const AVATAR_DEFAULT = 'https://api.dicebear.com/7.x/adventurer/svg?seed=chiangmai-traveler&backgroundColor=f6cf6b';
