@@ -4,7 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>แอ่วเชียงใหม่ | เที่ยวสนุก สะสมแต้ม ปลดฉายา</title>
+
+<!-- PRECONNECT & RESOURCE HINTS FOR OPTIMIZATION -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://raw.githubusercontent.com">
+<link rel="preconnect" href="https://api.dicebear.com">
+
 <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500;600;700&family=Chonburi&display=swap" rel="stylesheet">
 <style>
   :root{
@@ -39,7 +45,53 @@
   ::-webkit-scrollbar{height:8px; width:8px;}
   ::-webkit-scrollbar-thumb{background:var(--gold-dark); border-radius:8px;}
 
-  /* HEADER */
+  /* IMAGE OPTIMIZATION EFFECT */
+  img {
+    content-visibility: auto;
+    transition: opacity 0.3s ease;
+  }
+
+  /* LOADING SCREEN */
+  #loader-screen {
+    position: fixed;
+    inset: 0;
+    background: var(--paper);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+  }
+
+  #loader-screen.fade-out {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid var(--cream);
+    border-top: 5px solid var(--terracotta);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  .loader-text {
+    font-family: 'Chonburi', cursive;
+    color: var(--terracotta);
+    font-size: 20px;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  /* HEADER & NAVIGATION */
   header{
     background: linear-gradient(180deg, #f6cf6b, #ecb949);
     border-bottom: 4px solid var(--gold-dark);
@@ -48,7 +100,7 @@
     box-shadow: var(--shadow);
   }
 
-  .header-row{display:flex; align-items:center; justify-content:space-between; gap:14px;}
+  .header-row{display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap;}
 
   .brand{display:flex; align-items:center; gap:12px;}
 
@@ -57,12 +109,71 @@
     background:var(--paper); display:flex;align-items:center;justify-content:center;
     box-shadow: inset 0 0 0 3px var(--gold-dark);
     font-size:20px;
+    cursor:pointer;
   }
 
   .home-btn:hover{background:var(--gold-light);}
 
   .brand h1{color:var(--terracotta); font-size:26px; margin:0; letter-spacing:.5px;
     text-shadow: 1px 1px 0 #fff8e2;}
+
+  /* SEARCH & POST BUTTON BAR (PANTIP STYLE) */
+  .search-post-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    max-width: 480px;
+  }
+
+  .search-box {
+    position: relative;
+    flex: 1;
+  }
+
+  .search-box input {
+    width: 100%;
+    padding: 8px 14px 8px 36px;
+    border-radius: 20px;
+    border: 2px solid var(--gold-dark);
+    background: var(--paper);
+    font-family: 'Mitr', sans-serif;
+    font-size: 13.5px;
+  }
+
+  .search-box input:focus {
+    outline: none;
+    border-color: var(--terracotta);
+  }
+
+  .search-box .search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+
+  .btn-create-post {
+    background: var(--terracotta);
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 13.5px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    box-shadow: 0 4px 10px rgba(193,85,44,0.3);
+    transition: background 0.2s ease, transform 0.1s ease;
+  }
+
+  .btn-create-post:hover {
+    background: #a5431f;
+    transform: translateY(-1px);
+  }
 
   .profile-chip{
     display:flex; align-items:center; gap:8px; background:var(--paper);
@@ -128,6 +239,7 @@
     position:absolute; top:50%; transform:translateY(-50%); z-index:5;
     width:38px;height:38px;border-radius:50%; background:var(--gold-dark); color:#fff;
     display:flex;align-items:center;justify-content:center; font-size:18px; box-shadow:var(--shadow);
+    cursor:pointer;
   }
   .arrow.left{left:-14px;} .arrow.right{right:-14px;}
   .arrow:hover{background:var(--terracotta);}
@@ -154,9 +266,9 @@
     border-top:2px solid var(--gold-dark);
   }
   .visited-flag{position:absolute; top:10px; right:10px; background:var(--leaf); color:#fff;
-    font-size:11px; font-weight:700; padding:4px 9px; border-radius:12px;}
+    font-size:11px; font-weight:700; padding:4px 9px; border-radius:12px; z-index:2;}
 
-  /* SEARCH PAGE */
+  /* SEARCH PAGE & PANTIP FORUM STYLE */
   .filter-panel{
     background:var(--paper); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow);
     margin-bottom:20px; border:2px solid var(--line);
@@ -165,16 +277,110 @@
   .chip-group{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px;}
   .chip{
     padding:7px 16px; border-radius:20px; background:var(--cream); border:2px solid var(--line);
-    font-size:13.5px; font-weight:600; color:var(--ink-soft);
+    font-size:13.5px; font-weight:600; color:var(--ink-soft); cursor:pointer;
   }
   .chip.selected{background:var(--gold); border-color:var(--gold-dark); color:#402a05;}
   .filter-row-label{font-size:13px; font-weight:600; color:var(--ink-soft); margin-bottom:6px;}
   .go-btn{
     background:var(--terracotta); color:#fff; font-weight:700; padding:11px 26px; border-radius:20px;
-    box-shadow:var(--shadow); font-size:15px;
+    box-shadow:var(--shadow); font-size:15px; cursor:pointer;
   }
   .go-btn:hover{background:#a5431f;}
   .results-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:16px;}
+
+  .forum-list-container {
+    background: var(--paper);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+    border: 2px solid var(--line);
+    margin-top: 24px;
+  }
+
+  .forum-list-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    border-bottom: 2px solid var(--line);
+    padding-bottom: 12px;
+  }
+
+  .forum-item {
+    background: var(--cream);
+    border: 1.5px solid var(--line);
+    border-radius: 14px;
+    padding: 14px 18px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: transform 0.15s ease, border-color 0.15s ease;
+  }
+
+  .forum-item:hover {
+    transform: translateX(4px);
+    border-color: var(--gold-dark);
+  }
+
+  .forum-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--terracotta);
+    margin-bottom: 4px;
+  }
+
+  .forum-excerpt {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .forum-meta {
+    font-size: 12px;
+    color: var(--ink-soft);
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
+  /* THREAD DETAIL PAGE */
+  .thread-detail-card {
+    background: var(--paper);
+    border-radius: var(--radius);
+    padding: 28px;
+    box-shadow: var(--shadow);
+    border: 2px solid var(--line);
+  }
+
+  .btn-back {
+    background: var(--cream);
+    border: 2px solid var(--line);
+    color: var(--ink);
+    padding: 8px 16px;
+    border-radius: 16px;
+    font-weight: 600;
+    font-size: 13.5px;
+    margin-bottom: 18px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+  }
+
+  .btn-back:hover {
+    background: var(--gold-light);
+  }
+
+  .comment-item {
+    background: var(--cream);
+    border-radius: 14px;
+    padding: 12px 16px;
+    border: 1px solid var(--line);
+    margin-bottom: 10px;
+  }
 
   /* AI ASSISTANT PAGE */
   .ai-wrap{background:var(--paper); border-radius:var(--radius); box-shadow:var(--shadow); border:2px solid var(--line); overflow:hidden; max-width:760px;}
@@ -182,7 +388,7 @@
   .ai-header h3{margin:0 0 4px; font-size:18px;}
   .ai-header p{margin:0; font-size:12.5px; opacity:.9;}
   .ai-quick{display:flex; flex-wrap:wrap; gap:8px; padding:14px 18px 0;}
-  .ai-quick button{background:var(--cream); border:2px solid var(--line); border-radius:16px; padding:6px 14px; font-size:12.5px; font-weight:600; color:var(--ink-soft);}
+  .ai-quick button{background:var(--cream); border:2px solid var(--line); border-radius:16px; padding:6px 14px; font-size:12.5px; font-weight:600; color:var(--ink-soft); cursor:pointer;}
   .ai-quick button:hover{background:var(--gold-light); border-color:var(--gold-dark);}
   .chat-window{height:380px; overflow-y:auto; padding:16px 18px; display:flex; flex-direction:column; gap:12px;}
   .chat-bubble{max-width:80%; padding:11px 15px; border-radius:16px; font-size:14px; line-height:1.6; white-space:pre-wrap;}
@@ -193,7 +399,7 @@
   .chat-input-row{display:flex; gap:10px; padding:14px 18px; border-top:2px solid var(--line);}
   .chat-input-row input{flex:1; padding:11px 14px; border-radius:14px; border:2px solid var(--line); font-family:'Mitr'; font-size:14px; background:var(--cream);}
   .chat-input-row input:focus{outline:none; border-color:var(--gold-dark);}
-  .chat-send{background:var(--terracotta); color:#fff; font-weight:700; padding:0 22px; border-radius:14px;}
+  .chat-send{background:var(--terracotta); color:#fff; font-weight:700; padding:0 22px; border-radius:14px; cursor:pointer;}
   .chat-send:hover{background:#a5431f;}
   .chat-send[disabled]{background:#c9a08a; cursor:default;}
   .ai-setup-note{background:#fff6e0; border:1px solid var(--gold-dark); border-radius:12px; padding:10px 14px; font-size:12px; color:var(--ink-soft); margin:14px 18px 0; line-height:1.6;}
@@ -201,7 +407,7 @@
   /* GENERIC CARD (grid usage) */
   .place-card.grid-card{flex:auto;}
 
-  /* MODAL */
+  /* MODAL COMMON */
   .modal-overlay{
     position:fixed; inset:0; background:rgba(30,20,5,.55); display:none;
     align-items:center; justify-content:center; z-index:100; padding:18px;
@@ -210,7 +416,7 @@
   .modal-box{
     background:var(--paper); border-radius:26px; max-width:640px; width:100%;
     max-height:90vh; overflow-y:auto; box-shadow:0 20px 50px rgba(0,0,0,.4);
-    border:3px solid var(--gold-dark);
+    border:3px solid var(--gold-dark); position:relative;
   }
   .modal-photo{
     height:230px; background: linear-gradient(135deg,#2b3d2b,#1a241a); position:relative;
@@ -226,7 +432,7 @@
   .stat-box{flex:1; min-width:120px; background:var(--cream); border:2px solid var(--line); border-radius:14px; padding:10px 14px; font-size:13px;}
   .stat-box b{display:block; font-size:15px; color:var(--ink);}
   .modal-actions{display:flex; gap:10px; flex-wrap:wrap;}
-  .btn{padding:11px 18px; border-radius:16px; font-weight:700; font-size:14px; box-shadow:var(--shadow);}
+  .btn{padding:11px 18px; border-radius:16px; font-weight:700; font-size:14px; box-shadow:var(--shadow); cursor:pointer;}
   .btn-fav{background:var(--paper); border:2px solid var(--terracotta); color:var(--terracotta);}
   .btn-fav.active{background:var(--terracotta); color:#fff;}
   .btn-drive{background:var(--sky); color:#fff;}
@@ -235,7 +441,33 @@
   .btn-checkin:hover{background:var(--leaf-dark);}
   .btn-checkin[disabled]{background:#b9c9b3; cursor:default;}
   .close-x{position:absolute; top:14px; right:16px; background:rgba(0,0,0,.5); color:#fff;
-    width:34px;height:34px;border-radius:50%; font-size:16px; display:flex;align-items:center;justify-content:center; z-index:3;}
+    width:34px;height:34px;border-radius:50%; font-size:16px; display:flex;align-items:center;justify-content:center; z-index:3; cursor:pointer;}
+
+  /* CREATE POST MODAL FORM (PANTIP STYLE) */
+  .post-form-group {
+    margin-bottom: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .post-form-group label {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
+  .post-form-group input, .post-form-group textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 12px;
+    border: 2px solid var(--line);
+    font-family: 'Mitr', sans-serif;
+    font-size: 14px;
+    background: var(--cream);
+  }
+  .post-form-group input:focus, .post-form-group textarea:focus {
+    outline: none;
+    border-color: var(--gold-dark);
+  }
 
   /* ACTIVITIES PAGE */
   .hero-banner{border-radius:var(--radius); overflow:hidden; position:relative; height:220px; margin-bottom:18px; box-shadow:var(--shadow); border:3px solid var(--gold-dark);}
@@ -269,7 +501,13 @@
   @media (max-width:820px){.profile-wrap{grid-template-columns:1fr;}}
   .profile-main{background:var(--paper); border-radius:var(--radius); padding:26px; box-shadow:var(--shadow); border:2px solid var(--line);}
   .profile-head{display:flex; gap:22px; align-items:center; flex-wrap:wrap;}
+  .avatar-container{display:flex; flex-direction:column; align-items:center; gap:8px;}
   .avatar-big{width:130px;height:130px;border-radius:50%; object-fit:cover; border:4px solid var(--gold-dark); background:var(--leaf);}
+  .btn-change-avatar{
+    background:var(--gold-light); border:2px solid var(--gold-dark); color:var(--ink);
+    padding:4px 12px; border-radius:14px; font-size:12px; font-weight:700; cursor:pointer;
+  }
+  .btn-change-avatar:hover{background:var(--gold); color:#fff;}
   .lv-tag{color:var(--sky); font-size:22px; font-weight:700; margin-bottom:6px;}
   .xp-bar-outer{background:var(--cream); border:2px solid var(--ink); border-radius:20px; height:26px; width:280px; max-width:70vw; overflow:hidden; position:relative;}
   .xp-bar-inner{height:100%; background: linear-gradient(90deg,var(--leaf),var(--leaf-dark)); transition: width .5s ease;}
@@ -283,6 +521,125 @@
   select#achieveFilter{width:100%; padding:10px; border-radius:12px; border:none; margin-bottom:16px; font-family:'Mitr'; font-weight:600;}
   .achieve-item{display:flex; justify-content:space-between; align-items:center; background:#3a3a3a; border-radius:10px; padding:9px 14px; margin-bottom:8px; font-size:13.5px;}
   .achieve-item .cnt{color:var(--gold);}
+
+  /* AVATAR SELECTOR GRID & UPLOAD AREA */
+  .upload-box {
+    border: 2px dashed var(--gold-dark);
+    background: var(--cream);
+    border-radius: 16px;
+    padding: 12px;
+    text-align: center;
+    margin-bottom: 16px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  .upload-box:hover {
+    background: var(--paper);
+  }
+  .upload-box label {
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--terracotta);
+    font-size: 13.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .avatar-grid{
+    display:grid; grid-template-columns:repeat(auto-fill, minmax(80px, 1fr)); gap:12px; padding:10px 0;
+  }
+  .avatar-option{
+    width:100%; aspect-ratio:1; border-radius:50%; object-fit:cover; border:3px solid var(--line);
+    cursor:pointer; transition:transform 0.2s ease, border-color 0.2s ease; background:var(--cream);
+  }
+  .avatar-option:hover{ transform:scale(1.08); border-color:var(--gold-dark); }
+  .avatar-option.selected{ border-color:var(--terracotta); border-width:4px; box-shadow:var(--shadow); }
+
+  /* FLOATING MESSENGER WIDGET (BOTTOM RIGHT) */
+  .messenger-floating-btn {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: #0084ff;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 24px rgba(0, 132, 255, 0.4);
+    z-index: 1000;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+  .messenger-floating-btn:hover {
+    transform: scale(1.08);
+    background: #0072e0;
+  }
+
+  .messenger-box {
+    position: fixed;
+    bottom: 92px;
+    right: 24px;
+    width: 340px;
+    height: 440px;
+    background: var(--paper);
+    border: 3px solid var(--gold-dark);
+    border-radius: 20px;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.25);
+    z-index: 1000;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    animation: fadeIn 0.25s ease;
+  }
+  .messenger-box.open {
+    display: flex;
+  }
+  .messenger-header {
+    background: #0084ff;
+    color: #fff;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 600;
+  }
+  .messenger-body {
+    flex: 1;
+    padding: 12px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: var(--cream);
+  }
+  .messenger-footer {
+    padding: 10px;
+    border-top: 2px solid var(--line);
+    display: flex;
+    gap: 8px;
+    background: var(--paper);
+  }
+  .messenger-footer input {
+    flex: 1;
+    padding: 8px 12px;
+    border-radius: 12px;
+    border: 1.5px solid var(--line);
+    font-family: 'Mitr', sans-serif;
+    font-size: 13px;
+  }
+  .messenger-footer button {
+    background: #0084ff;
+    color: #fff;
+    padding: 8px 14px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+  }
 
   /* SHOP listing page */
   .simple-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:18px;}
@@ -306,7 +663,7 @@
   .login-logo{color:var(--terracotta); font-size:30px; margin:0 0 6px;}
   .login-tagline{color:var(--ink-soft); font-size:13.5px; margin:0 0 20px; line-height:1.6;}
   .login-tabs{display:flex; background:var(--cream); border-radius:16px; padding:4px; margin-bottom:18px;}
-  .login-tab{flex:1; padding:9px; border-radius:12px; font-weight:700; font-size:13.5px; background:transparent; color:var(--ink-soft);}
+  .login-tab{flex:1; padding:9px; border-radius:12px; font-weight:700; font-size:13.5px; background:transparent; color:var(--ink-soft); cursor:pointer;}
   .login-tab.active{background:var(--gold); color:#3a2707; box-shadow:var(--shadow);}
   .login-card label{display:block; text-align:left; font-size:12.5px; font-weight:700; color:var(--ink-soft); margin:12px 0 5px;}
   .login-card input{
@@ -316,7 +673,7 @@
   .login-card input:focus{outline:none; border-color:var(--gold-dark);}
   .login-submit{
     width:100%; margin-top:20px; padding:13px; border-radius:16px; background:var(--terracotta);
-    color:#fff; font-weight:700; font-size:15px; box-shadow:var(--shadow);
+    color:#fff; font-weight:700; font-size:15px; box-shadow:var(--shadow); cursor:pointer;
   }
   .login-submit:hover{background:#a5431f;}
   .auth-error{
@@ -325,14 +682,14 @@
   }
   .login-note{font-size:11px; color:var(--ink-soft); margin-top:18px; line-height:1.6; opacity:.85;}
   .logout-btn{margin-top:18px; background:var(--cream); border:2px solid var(--terracotta); color:var(--terracotta);
-    padding:9px 20px; border-radius:14px; font-weight:700; font-size:13px;}
+    padding:9px 20px; border-radius:14px; font-weight:700; font-size:13px; cursor:pointer;}
   .logout-btn:hover{background:var(--terracotta); color:#fff;}
   .username-tag{font-size:12.5px; color:var(--ink-soft); font-weight:600; margin-top:-2px; margin-bottom:10px;}
 
   .toast{
     position:fixed; bottom:26px; left:50%; transform:translateX(-50%) translateY(20px); opacity:0;
     background:var(--ink); color:#fff; padding:13px 24px; border-radius:30px; font-weight:600; z-index:200;
-    transition: all .3s ease; box-shadow:var(--shadow); display:flex; align-items:center; gap:10px;
+    transition: all .3s ease; box-shadow:var(--shadow); display:flex; align-items:center; gap:10px; pointer-events:none;
   }
   .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
   .empty-note{padding:20px; text-align:center; color:var(--ink-soft); font-size:14px;}
@@ -340,10 +697,16 @@
 </head>
 <body>
 
+<!-- LOADING SCREEN -->
+<div id="loader-screen">
+  <div class="spinner"></div>
+  <div class="loader-text">กำลังโหลดข้อมูล...</div>
+</div>
+
 <div class="login-page" id="loginPage">
   <div class="login-card">
     <h1 class="display login-logo">แอ่วเชียงใหม่</h1>
-    <p class="login-tagline">เข้าสู่ระบบเพื่อเริ่มสะสมเลเวล เหรียญ และปลดฉายานักเดินทางของคุณ *หมายเหตุ เว็บไซต์ยังไม่สามารถนำอุปรกรณ์อื่นมาผูกบัญชีได้ แต่ยังสามารถใช้งานได้ตามปกติ*</p>
+    <p class="login-tagline">เข้าสู่ระบบเพื่อเริ่มสะสมเลเวล เหรียญ และปลดฉายานักเดินทางของคุณ *หมายเหตุ เว็บไซต์ยังไม่สามารถนำอุปกรณ์อื่นมาผูกบัญชีได้ แต่ยังสามารถใช้งานได้ตามปกติ*</p>
     <div class="login-tabs">
       <button class="login-tab active" data-mode="login" onclick="setAuthMode('login')">เข้าสู่ระบบ</button>
       <button class="login-tab" data-mode="register" onclick="setAuthMode('register')">สมัครสมาชิกใหม่</button>
@@ -369,8 +732,21 @@
       <div class="home-btn" onclick="goTo('home')">🏠</div>
       <h1>แอ่วเชียงใหม่</h1>
     </div>
+
+    <!-- SEARCH & PANTIP-STYLE POST BUTTON BAR -->
+    <div class="search-post-bar">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="quickNavSearch" placeholder="ค้นหากระทู้ / สถานที่..." onkeydown="if(event.key==='Enter') { goTo('search'); runSearch(); }">
+      </div>
+      <button class="btn-create-post" onclick="openCreatePostModal()">
+        <span>✏️</span>
+        <span>ตั้งกระทู้</span>
+      </button>
+    </div>
+
     <div class="profile-chip" onclick="goTo('profile')" style="cursor:pointer;">
-      <img class="avatar" id="chipAvatar" src="" alt="">
+      <img class="avatar" id="chipAvatar" src="" alt="" loading="lazy" decoding="async">
       <span class="lv" id="chipLv">Lv.1</span>
     </div>
   </div>
@@ -432,7 +808,7 @@
         <button class="chip" data-star="3">3 ★ ขึ้นไป</button>
         <button class="chip" data-star="4">4 ★ ขึ้นไป</button>
       </div>
-      <div class="filter-row-label">พื่นที่ในจังหวัด</div>
+      <div class="filter-row-label">พื้นที่ในจังหวัด</div>
       <div class="chip-group" id="zoneChips">
         <button class="chip" data-zone="0">อำเภอเมือง เชียงใหม่</button>
         <button class="chip" data-zone="1">อำเภอ จอมทอง</button>
@@ -463,7 +839,28 @@
       </div>
       <button class="go-btn" onclick="runSearch()">🔍 ค้นหาสถานที่ให้ฉัน</button>
     </div>
+    
+    <!-- RESULTS GRID FOR PLACES -->
     <div class="results-grid" id="searchResults"></div>
+
+    <!-- PANTIP-STYLE FORUM THREADS LIST -->
+    <div class="forum-list-container">
+      <div class="forum-list-header">
+        <h3 style="margin:0; color:var(--terracotta);">💬 กระทู้พูดคุยล่าสุด (Pantip Style)</h3>
+        <button class="btn-create-post" onclick="openCreatePostModal()">✏️ ตั้งกระทู้ใหม่</button>
+      </div>
+      <div id="forumThreadsList">
+        <div style="text-align:center; padding:20px; color:var(--ink-soft);">กำลังโหลดกระทู้...</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THREAD DETAIL PAGE (NEW DETACHED VIEW) -->
+  <section class="page" id="page-thread-detail">
+    <button class="btn-back" onclick="goTo('search')">← กลับไปหน้าค้นหา/เว็บบอร์ด</button>
+    <div class="thread-detail-card" id="threadDetailContent">
+      <div style="text-align:center; padding:30px; color:var(--ink-soft);">กำลังโหลดรายละเอียดกระทู้...</div>
+    </div>
   </section>
 
   <!-- AI ASSISTANT -->
@@ -486,7 +883,7 @@
   <!-- ACTIVITIES -->
   <section class="page" id="page-activities">
     <div class="hero-banner">
-      <img src="https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/event/rickroll.jpg" alt="กิจกรรม">
+      <img src="https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/event/rickroll.jpg" alt="กิจกรรม" fetchpriority="high" decoding="async">
       <div class="hero-tag">มีกิจกรรมในช่วงนี้</div>
     </div>
     <div id="eventsList"></div>
@@ -513,7 +910,10 @@
     <div class="profile-wrap">
       <div class="profile-main">
         <div class="profile-head">
-          <img class="avatar-big" id="bigAvatar" src="" alt="">
+          <div class="avatar-container">
+            <img class="avatar-big" id="bigAvatar" src="" alt="" loading="lazy" decoding="async">
+            <button class="btn-change-avatar" onclick="openAvatarModal()">✏️ เปลี่ยนรูป</button>
+          </div>
           <div>
             <div class="lv-tag" id="lvTag">LV.1</div>
             <div class="xp-bar-outer"><div class="xp-bar-inner" id="xpBar" style="width:0%"></div><span id="xpText">0 / 560</span></div>
@@ -557,7 +957,7 @@
 </main>
 </div>
 
-<!-- MODAL -->
+<!-- MODAL MAP & DETAILS -->
 <div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this) closeModal()">
   <div class="modal-box">
     <div class="modal-photo" id="modalPhotoArea">
@@ -567,15 +967,799 @@
   </div>
 </div>
 
+<!-- MODAL CREATE POST (PANTIP STYLE) -->
+<div class="modal-overlay" id="createPostModal" onclick="if(event.target===this) closeCreatePostModal()">
+  <div class="modal-box" style="max-width: 520px;">
+    <div style="padding: 18px 22px; border-bottom: 2px solid var(--line); display:flex; justify-content:space-between; align-items:center;">
+      <h3 style="margin:0; color:var(--terracotta);">✏️ ตั้งกระทู้ใหม่ (สไตล์ Pantip)</h3>
+      <div class="close-x" style="position:static;" onclick="closeCreatePostModal()">✕</div>
+    </div>
+    <div class="modal-body">
+      <div class="post-form-group">
+        <label>หัวข้อกระทู้</label>
+        <input type="text" id="postTitleInput" placeholder="หัวข้อกระทู้ของคุณ เช่น รีวิวคาเฟ่เชียงใหม่ลับๆ...">
+      </div>
+      <div class="post-form-group">
+        <label>เนื้อหากระทู้</label>
+        <textarea id="postContentInput" rows="5" placeholder="เขียนรายละเอียดกระทู้ที่นี่..."></textarea>
+      </div>
+      <button class="btn" style="width:100%; background:var(--terracotta); color:#fff; font-size:15px;" onclick="submitPostForm()">โพสต์กระทู้</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL CHANGE AVATAR -->
+<div class="modal-overlay" id="avatarModalOverlay" onclick="if(event.target===this) closeAvatarModal()">
+  <div class="modal-box" style="max-width:480px;">
+    <div class="modal-body">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <h3 style="margin:0; color:var(--terracotta);">เลือกรูปโปรไฟล์</h3>
+        <div class="close-x" style="position:static;" onclick="closeAvatarModal()">✕</div>
+      </div>
+
+      <!-- FILE UPLOAD OPTION -->
+      <div class="upload-box">
+        <label for="avatarFileInput">
+          📁 <span>อัปโหลดรูปภาพของคุณเอง</span>
+        </label>
+        <input type="file" id="avatarFileInput" accept="image/*" style="display:none;" onchange="handleAvatarUpload(event)">
+      </div>
+
+      <p style="font-size:13px; color:var(--ink-soft); margin-top:0;">หรือเลือกอวตารสำเร็จรูปที่คุณชอบ:</p>
+      <div class="avatar-grid" id="avatarGrid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- FLOATING MESSENGER / CHAT WIDGET (BOTTOM RIGHT) -->
+<div class="messenger-floating-btn" onclick="toggleMessengerBox()" title="เปิดแชท Messenger">
+  <svg width="28" height="28" fill="currentColor" viewBox="0 0 24 24">
+    <path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.91 1.45 5.518 3.716 7.21V22l3.323-1.826c.94.26 1.936.4 2.961.4 5.523 0 10-4.145 10-9.258C22 6.145 17.523 2 12 2zm1.09 12.38l-2.55-2.72-4.98 2.72 5.48-5.82 2.61 2.72 4.92-2.72-5.48 5.82z"/>
+  </svg>
+</div>
+
+<div class="messenger-box" id="messengerBox">
+  <div class="messenger-header">
+    <span>💬 แชทกลุ่มนักเดินทาง</span>
+    <button onclick="toggleMessengerBox()" style="background:transparent; color:#fff; font-weight:bold; font-size:16px;">✕</button>
+  </div>
+  <div class="messenger-body" id="messengerChatList">
+    <div style="text-align:center; color:var(--ink-soft); font-size:12px; margin-top:10px;">เริ่มต้นสนทนาในห้องแชทสด</div>
+  </div>
+  <div class="messenger-footer">
+    <input type="text" id="messengerInput" placeholder="พิมพ์ข้อความ..." onkeydown="if(event.key==='Enter') sendMessengerMsg();">
+    <button onclick="sendMessengerMsg()">ส่ง</button>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
+<!-- SUPABASE SDK & INITIALIZATION -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-/* ============ STORAGE ADAPTER ============
-   Works two ways so the SAME file works both:
-   1) Inside Claude.ai (uses window.storage, Claude's built-in persistence)
-   2) Downloaded and opened/hosted anywhere else (falls back to the browser's
-      own localStorage, so login/signup still works with no server needed)
-*/
+  // ประกาศ supabase Client เพียงจุดเดียวใน Global Scope
+  const supabaseUrl = 'https://yokodhafmwxphcswmleh.supabase.co';
+  const supabaseAnonKey = 'sb_publishable_VIPgzAFvAR3Omh17nRZonw_6y10m-Io';
+  const supabase = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
+</script>
+
+<!-- EXTERNAL PLACES DATA & WIDGET -->
+<script src="https://cdn.example-ai.com/widget.js" data-ai-id="123456" async></script>
+<script src="JS/PLACES/emergency.js"></script>
+
+<script>
+
+/* ============ LOADER CONTROL ============ */
+window.addEventListener('load', () => {
+  const loader = document.getElementById('loader-screen');
+  if (loader) {
+    loader.classList.add('fade-out');
+  }
+});
+
+/* ============ MOCK FORUM DATABASE (FOR SEPARATE THREAD/SEARCH PAGES) ============ */
+let mockThreads = [
+  {
+    id: "th_1",
+    title: "เที่ยวเชียงใหม่ 3 วัน 2 คืน งบ 3,000 บาท จัดแพลนยังไงดี?",
+    content: "สวัสดีครับทุกคน พอดีมีแพลนจะไปเที่ยวเชียงใหม่เดือนหน้า อยากสอบถามเพื่อนๆ ว่าใครงบน้อยแต่อยากเก็บครบ ทั้งคาเฟ่และธรรมชาติ มีพิกัดไหนแนะนำบ้างครับ?",
+    author: "นักเดินทางสายประหยัด",
+    created_at: "2026-09-05T10:00:00Z",
+    comments: [
+      { id: "c1", author: "เจ้าถิ่นเชียงใหม่", content: "แนะนำให้นอนในตัวเมืองก่อนคืนแรกครับ แล้วค่อยเช่ามอเตอร์ไซค์ขึ้นแว้นดอยสุเทพ/ห้วยตึงเฒ่า ประหยัดค่าเดินทางไปเยอะมาก!", created_at: "2026-09-05T10:30:00Z" }
+    ]
+  },
+  {
+    id: "th_2",
+    title: "ตามหาร้านข้าวซอยลับๆ ที่คนท้องถิ่นกินกัน ไม่เอาแบบทัวร์ลง",
+    content: "ช่วยวาร์ปร้านข้าวซอยเข้มข้น รสชาติเหนือแท้ๆ ในตัวเมืองเชียงใหม่หน่อยครับ อยากสัมผัสรสชาติแบบดั้งเดิมจริงๆ",
+    author: "สายกินถล่มเมือง",
+    created_at: "2026-09-06T14:20:00Z",
+    comments: [
+      { id: "c2", author: "ชิมไปเรื่อย", content: "ลองไปข้าวซอยลุงประกิจ หรือข้าวซอยแม่สายดูครับ เข้มข้นถึงใจแน่นอน!", created_at: "2026-09-06T15:10:00Z" }
+    ]
+  }
+];
+
+/* ============ SUPABASE HELPER FUNCTIONS ============ */
+async function createPost(title, content) {
+  const authorName = currentUser ? currentUser.displayName : 'สมาชิกผู้ใช้นามแฝง';
+  const newThread = {
+    id: "th_" + Date.now(),
+    title: title,
+    content: content,
+    author: authorName,
+    created_at: new Date().toISOString(),
+    comments: []
+  };
+  mockThreads.unshift(newThread);
+
+  // Attempt Supabase Insert
+  try {
+    await supabase.from('posts').insert([{ title, content, author: authorName }]);
+  } catch(e) {
+    console.log('Supabase post notice: fallback to local state', e);
+  }
+
+  fetchThreadsList();
+  return { data: newThread, error: null };
+}
+
+async function fetchThreadsList() {
+  const container = document.getElementById('forumThreadsList');
+  if(!container) return;
+
+  // Try fetching from Supabase first
+  try {
+    const { data, error } = await supabase.from('posts').select('*').order('created_at', { ascending: false });
+    if(!error && data && data.length > 0) {
+      // Map DB posts
+      data.forEach(dbItem => {
+        if(!mockThreads.find(m => m.id === dbItem.id || m.title === dbItem.title)) {
+          mockThreads.push({
+            id: dbItem.id || "th_" + Math.random(),
+            title: dbItem.title,
+            content: dbItem.content,
+            author: dbItem.author || "สมาชิกผู้ใช้นามแฝง",
+            created_at: dbItem.created_at || new Date().toISOString(),
+            comments: []
+          });
+        }
+      });
+    }
+  } catch(e) {
+    console.log('Supabase fetch threads fallback used');
+  }
+
+  if(mockThreads.length === 0) {
+    container.innerHTML = `<div class="empty-note">ยังไม่มีกระทู้พูดคุย ร่วมเป็นคนแรกที่ตั้งกระทู้เลย!</div>`;
+    return;
+  }
+
+  container.innerHTML = mockThreads.map(th => `
+    <div class="forum-item" onclick="openThreadDetail('${th.id}')">
+      <div class="forum-title">📌 ${th.title}</div>
+      <div class="forum-excerpt">${th.content}</div>
+      <div class="forum-meta">
+        <span>👤 ${th.author}</span>
+        <span>🕒 ${new Date(th.created_at).toLocaleDateString('th-TH')}</span>
+        <span>💬 ${th.comments ? th.comments.length : 0} ความคิดเห็น</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openThreadDetail(threadId) {
+  const thread = mockThreads.find(t => t.id === threadId);
+  if(!thread) return;
+
+  const container = document.getElementById('threadDetailContent');
+  container.innerHTML = `
+    <div style="border-bottom:2px solid var(--line); padding-bottom:16px; margin-bottom:20px;">
+      <h2 style="color:var(--terracotta); margin:0 0 10px;">${thread.title}</h2>
+      <div class="forum-meta" style="font-size:13px;">
+        <span>👤 <b>${thread.author}</b></span>
+        <span>🕒 โพสต์เมื่อ: ${new Date(thread.created_at).toLocaleString('th-TH')}</span>
+      </div>
+    </div>
+    
+    <div style="font-size:15px; line-height:1.8; color:var(--ink); margin-bottom:30px; white-space:pre-wrap; background:var(--cream); padding:18px; border-radius:16px; border:1px solid var(--line);">
+      ${thread.content}
+    </div>
+
+    <h3 style="color:var(--ink); border-bottom:1.5px solid var(--line); padding-bottom:8px;">💬 ความคิดเห็น (${thread.comments ? thread.comments.length : 0})</h3>
+    <div id="threadCommentsList" style="margin-bottom:20px;">
+      ${(thread.comments && thread.comments.length > 0) ? thread.comments.map(c => `
+        <div class="comment-item">
+          <div style="font-size:12px; font-weight:700; color:var(--terracotta); margin-bottom:4px;">👤 ${c.author}</div>
+          <div style="font-size:14px; color:var(--ink);">${c.content}</div>
+        </div>
+      `).join('') : '<div style="color:var(--ink-soft); font-size:13.5px; padding:10px 0;">ยังไม่มีความคิดเห็น มาแสดงความคิดเห็นเป็นคนแรกกัน!</div>'}
+    </div>
+
+    <!-- ADD COMMENT FORM -->
+    <div style="display:flex; gap:10px; margin-top:20px;">
+      <input type="text" id="commentInput" placeholder="เขียนความคิดเห็นของคุณ..." style="flex:1; padding:10px 14px; border-radius:14px; border:2px solid var(--line); font-family:'Mitr'; font-size:14px; background:var(--cream);">
+      <button class="btn" style="background:var(--terracotta); color:#fff;" onclick="submitComment('${thread.id}')">ตอบกระทู้</button>
+    </div>
+  `;
+
+  goTo('thread-detail');
+}
+
+function submitComment(threadId) {
+  const input = document.getElementById('commentInput');
+  const text = input ? input.value.trim() : '';
+  if(!text) return;
+
+  const thread = mockThreads.find(t => t.id === threadId);
+  if(thread) {
+    if(!thread.comments) thread.comments = [];
+    const authorName = currentUser ? currentUser.displayName : 'ผู้ใช้งานทั่วไป';
+    thread.comments.push({
+      id: "c_" + Date.now(),
+      author: authorName,
+      content: text,
+      created_at: new Date().toISOString()
+    });
+    showToast('ตอบกระทู้เรียบร้อยแล้ว');
+    openThreadDetail(threadId);
+  }
+}
+
+async function sendChatMessage(sender, receiver, text) {
+  try {
+    const { data, error } = await supabase
+      .from('messages')
+      .insert([{ sender_id: sender, receiver_id: receiver, message: text }]);
+    return { data, error };
+  } catch(e) {
+    return { data: null, error: e };
+  }
+}
+
+function initSupabaseRealtime() {
+  try {
+    supabase
+      .channel('chat_room')
+      .on(
+        'postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'messages' },
+        (payload) => {
+          if (payload.new && payload.new.message) {
+            const currentUsername = currentUser ? currentUser.username : 'guest';
+            if (payload.new.sender_id !== currentUsername) {
+              appendMessengerMsg(payload.new.sender_id, payload.new.message, false);
+            }
+          }
+        }
+      )
+      .subscribe();
+  } catch(e) {
+    console.log('Realtime setup bypassed');
+  }
+}
+
+/* ============ MESSENGER WIDGET LOGIC ============ */
+function toggleMessengerBox(){
+  const box = document.getElementById('messengerBox');
+  box.classList.toggle('open');
+}
+
+function appendMessengerMsg(sender, text, isMe){
+  const list = document.getElementById('messengerChatList');
+  const div = document.createElement('div');
+  div.style.padding = '8px 12px';
+  div.style.borderRadius = '12px';
+  div.style.fontSize = '13px';
+  div.style.maxWidth = '85%';
+  
+  if(isMe){
+    div.style.alignSelf = 'flex-end';
+    div.style.background = '#0084ff';
+    div.style.color = '#fff';
+    div.textContent = text;
+  } else {
+    div.style.alignSelf = 'flex-start';
+    div.style.background = 'var(--paper)';
+    div.style.border = '1px solid var(--line)';
+    div.style.color = 'var(--ink)';
+    div.innerHTML = `<strong style="font-size:11px; color:var(--terracotta); display:block;">${sender}</strong>${text}`;
+  }
+  list.appendChild(div);
+  list.scrollTop = list.scrollHeight;
+}
+
+async function sendMessengerMsg(){
+  const input = document.getElementById('messengerInput');
+  const text = input.value.trim();
+  if(!text) return;
+  const currentSender = currentUser ? currentUser.username : 'guest';
+  
+  appendMessengerMsg(currentSender, text, true);
+  input.value = '';
+
+  await sendChatMessage(currentSender, 'global', text);
+}
+
+/* ============ PANTIP POST MODAL LOGIC ============ */
+function openCreatePostModal(){
+  document.getElementById('createPostModal').classList.add('open');
+}
+function closeCreatePostModal(){
+  document.getElementById('createPostModal').classList.remove('open');
+}
+
+async function submitPostForm(){
+  const title = document.getElementById('postTitleInput').value.trim();
+  const content = document.getElementById('postContentInput').value.trim();
+
+  if(!title || !content){
+    showToast('กรุณากรอกทั้งหัวข้อและเนื้อหากระทู้');
+    return;
+  }
+
+  const { error } = await createPost(title, content);
+  if(!error){
+    showToast('โพสต์กระทู้ของคุณเรียบร้อยแล้ว!');
+    document.getElementById('postTitleInput').value = '';
+    document.getElementById('postContentInput').value = '';
+    closeCreatePostModal();
+  } else {
+    showToast('เกิดข้อผิดพลาดในการตั้งกระทู้');
+  }
+}
+
+/* ============ AI ASSISTANT ============ */
+const AI_ENDPOINT = "https://cdn.example-ai.com/widget.js"; 
+
+const AI_QUICK_PROMPTS = [
+  'มีเวลาครึ่งวัน ชอบธรรมชาติ ไปไหนดี',
+  'แนะนำร้านอาหารอร่อยใกล้เมือง',
+  'พาไปวัดสวยๆ สักที่',
+  'มีกิจกรรมพิเศษช่วงนี้ไหม'
+];
+let chatHistory = [];
+
+function renderAiQuickPrompts(){
+  document.getElementById('aiQuickPrompts').innerHTML = AI_QUICK_PROMPTS
+    .map(q=>`<button onclick="document.getElementById('chatInput').value='${q.replace(/'/g,"")}'; sendChat();">${q}</button>`).join('');
+}
+
+function appendChatBubble(role, text, extraClass){
+  const win = document.getElementById('chatWindow');
+  const div = document.createElement('div');
+  div.className = 'chat-bubble ' + role + (extraClass ? ' '+extraClass : '');
+  div.textContent = text;
+  win.appendChild(div);
+  win.scrollTop = win.scrollHeight;
+  return div;
+}
+
+async function sendChat(){
+  const input = document.getElementById('chatInput');
+  const prompt = input.value.trim();
+  if(!prompt) return;
+
+  const currentSender = currentUser ? currentUser.username : 'guest';
+  appendChatBubble('user', prompt);
+  input.value = '';
+
+  sendChatMessage(currentSender, 'bot', prompt);
+
+  if(!AI_ENDPOINT){
+    appendChatBubble('ai', 'ยังไม่ได้ตั้งค่าเซิร์ฟเวอร์ AI นะครับ — ไปตั้งค่า AI_ENDPOINT ในโค้ดก่อน', 'error');
+    return;
+  }
+
+  const sendBtn = document.getElementById('chatSendBtn');
+  sendBtn.disabled = true;
+  const loadingBubble = appendChatBubble('ai', 'กำลังคิด...', 'loading');
+
+  try{
+    const res = await fetch(AI_ENDPOINT, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({prompt})
+    });
+    const data = await res.json();
+    loadingBubble.remove();
+    if(!res.ok || data.error){
+      appendChatBubble('ai', 'ขออภัย เกิดข้อผิดพลาด: ' + (data.error || res.status), 'error');
+    } else {
+      appendChatBubble('ai', data.text || 'ไม่มีคำตอบ');
+    }
+  }catch(e){
+    loadingBubble.remove();
+    appendChatBubble('ai', 'เชื่อมต่อเซิร์ฟเวอร์ AI ไม่ได้ ลองตรวจสอบ AI_ENDPOINT หรือการเชื่อมต่ออินเทอร์เน็ต', 'error');
+  } finally {
+    sendBtn.disabled = false;
+  }
+}
+
+function initAiPage(){
+  renderAiQuickPrompts();
+  const note = document.getElementById('aiSetupNote');
+  if(!AI_ENDPOINT){
+    note.style.display = 'block';
+    note.textContent = '⚠️ ยังไม่ได้เชื่อมต่อเซิร์ฟเวอร์ AI — ตอนนี้แชทนี้ยังใช้งานไม่ได้จริง';
+  } else {
+    note.style.display = 'none';
+  }
+  if(chatHistory.length === 0){
+    appendChatBubble('ai', 'สวัสดีครับ! ผมแอ่วบอท ผู้ช่วยแนะนำเที่ยวเชียงใหม่ ลองถามผมได้เลยว่าอยากไปเที่ยวแบบไหน 😊');
+    chatHistory.push('init');
+  }
+}
+
+/* ============ DATA ============ */
+const AVATAR_DEFAULT = 'https://api.dicebear.com/7.x/adventurer/svg?seed=chiangmai-traveler&backgroundColor=f6cf6b';
+
+const AVATAR_OPTIONS = [
+  'https://api.dicebear.com/7.x/adventurer/svg?seed=chiangmai-traveler&backgroundColor=f6cf6b',
+  'https://api.dicebear.com/7.x/adventurer/svg?seed=Felix&backgroundColor=f6cf6b',
+  'https://api.dicebear.com/7.x/adventurer/svg?seed=Aneka&backgroundColor=f6cf6b',
+  'https://api.dicebear.com/7.x/adventurer/svg?seed=Milo&backgroundColor=f6cf6b',
+  'https://api.dicebear.com/7.x/adventurer/svg?seed=Luna&backgroundColor=f6cf6b',
+  'https://api.dicebear.com/7.x/adventurer/svg?seed=Zoe&backgroundColor=f6cf6b',
+  'https://api.dicebear.com/7.x/adventurer/svg?seed=Oliver&backgroundColor=f6cf6b',
+  'https://api.dicebear.com/7.x/adventurer/svg?seed=Leo&backgroundColor=f6cf6b',
+  'https://api.dicebear.com/7.x/adventurer/svg?seed=Maya&backgroundColor=f6cf6b',
+  'https://api.dicebear.com/7.x/bottts/svg?seed=LannaBot&backgroundColor=f6cf6b',
+  'https://api.dicebear.com/7.x/big-smile/svg?seed=HappyTraveler&backgroundColor=f6cf6b',
+  'https://api.dicebear.com/7.x/thumbs/svg?seed=NorthernExplorer&backgroundColor=f6cf6b'
+];
+
+/* ============ STATE ============ */
+let state = {
+  level:1, xp:0, coins:0,
+  favorites:[], checkins:[], redeemed:[],
+  avatar: AVATAR_DEFAULT
+};
+let currentUser = null; 
+let authMode = 'login';
+
+function xpNeeded(level){ return level*560; }
+
+function simpleHash(str){
+  let hash = 0;
+  for(let i=0;i<str.length;i++){ hash = (hash<<5)-hash+str.charCodeAt(i); hash|=0; }
+  return 'h'+Math.abs(hash).toString(36)+str.length;
+}
+
+async function startSession(username){
+  try{ await DataStore.set('cnx-session', JSON.stringify({username}), false); }
+  catch(e){ console.error('session save failed', e); }
+}
+function applyAccount(account){
+  currentUser = {username: account.username, displayName: account.displayName};
+  state = {
+    level: account.level || 1, xp: account.xp || 0, coins: account.coins || 0,
+    favorites: account.favorites || [], checkins: account.checkins || [], redeemed: account.redeemed || [],
+    avatar: account.avatar || AVATAR_DEFAULT
+  };
+  refreshAll();
+}
+function showApp(){
+  document.getElementById('loginPage').style.display = 'none';
+  document.getElementById('appShell').style.display = 'block';
+  fetchThreadsList();
+}
+function showLogin(){
+  document.getElementById('appShell').style.display = 'none';
+  document.getElementById('loginPage').style.display = 'flex';
+  document.getElementById('authUsername').value = '';
+  document.getElementById('authPassword').value = '';
+}
+async function logout(){
+  try{ await DataStore.delete('cnx-session', false); }catch(e){}
+  currentUser = null;
+  showLogin();
+  showToast('ออกจากระบบแล้ว');
+}
+
+async function saveState(){
+  if(!currentUser) return;
+  try{
+    let prev = {};
+    try{
+      const existing = await DataStore.get('account:'+currentUser.username, true);
+      if(existing && existing.value) prev = JSON.parse(existing.value);
+    }catch(e){ prev = {}; }
+    const account = {
+      username: currentUser.username,
+      displayName: currentUser.displayName,
+      passwordHash: prev.passwordHash,
+      avatar: state.avatar, level: state.level, xp: state.xp, coins: state.coins,
+      favorites: state.favorites, checkins: state.checkins, redeemed: state.redeemed
+    };
+    await DataStore.set('account:'+currentUser.username, JSON.stringify(account), true);
+  }catch(e){ console.error('save failed', e); }
+}
+
+async function initApp(){
+  try{
+    const sess = await DataStore.get('cnx-session', false);
+    if(sess && sess.value){
+      const {username} = JSON.parse(sess.value);
+      const res = await DataStore.get('account:'+username, true);
+      if(res && res.value){ applyAccount(JSON.parse(res.value)); showApp(); return; }
+    }
+  }catch(e){ /* no active session */ }
+  showLogin();
+}
+
+/* ============ AVATAR MODAL SYSTEM ============ */
+function openAvatarModal(){
+  renderAvatarGrid();
+  document.getElementById('avatarModalOverlay').classList.add('open');
+}
+
+function closeAvatarModal(){
+  document.getElementById('avatarModalOverlay').classList.remove('open');
+}
+
+function renderAvatarGrid(){
+  const grid = document.getElementById('avatarGrid');
+  grid.innerHTML = AVATAR_OPTIONS.map(url => `
+    <img class="avatar-option ${state.avatar === url ? 'selected' : ''}" 
+         src="${url}" 
+         alt="Avatar" 
+         loading="lazy" 
+         decoding="async" 
+         onclick="selectAvatar('${url}')">
+  `).join('');
+}
+
+function selectAvatar(url){
+  state.avatar = url;
+  saveState();
+  refreshAll();
+  closeAvatarModal();
+  showToast('เปลี่ยนรูปโปรไฟล์เรียบร้อยแล้ว!');
+}
+
+function handleAvatarUpload(event){
+  const file = event.target.files[0];
+  if(!file) return;
+
+  if(!file.type.startsWith('image/')){
+    showToast('กรุณาเลือกไฟล์รูปภาพเท่านั้น');
+    return;
+  }
+
+  if(file.size > 2 * 1024 * 1024){
+    showToast('ขนาดไฟล์รูปภาพต้องไม่เกิน 2MB');
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = function(e){
+    const base64Image = e.target.result;
+    selectAvatar(base64Image);
+  };
+  reader.readAsDataURL(file);
+}
+
+/* ============ NAV ============ */
+function goTo(page){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const targetPage = document.getElementById('page-'+page);
+  if(targetPage) {
+    targetPage.classList.add('active');
+  }
+  document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.toggle('active', b.dataset.page===page));
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+document.getElementById('navTabs').addEventListener('click', e=>{
+  const btn = e.target.closest('button[data-page]');
+  if(btn) goTo(btn.dataset.page);
+});
+
+/* ============ CARD RENDER ============ */
+function cardHTML(p){
+  const visited = state.checkins.includes(p.id);
+  return `<div class="place-card" onclick="openModal('${p.id}')">
+      ${visited?'<div class="visited-flag">ไปแล้ว ✓</div>':''}
+      <img class="thumb" src="${p.img}" alt="${p.name}" loading="lazy" decoding="async">
+      <div class="coin-badge"><span class="coin-icon"></span>${p.coins}</div>
+      <div class="place-name">${p.name}</div>
+    </div>`;
+}
+function renderCarousels(){
+  if (typeof PLACES === 'undefined') return;
+  const featuredPlaces = PLACES.filter(p => p.stars >= 4.0);
+  document.getElementById('car-featured').innerHTML = featuredPlaces.map(cardHTML).join('');
+
+  const foodPlaces = PLACES
+    .filter(p => p.cat === 'food')
+    .sort((a, b) => b.coins - a.coins);
+  document.getElementById('car-food').innerHTML = foodPlaces.map(cardHTML).join('');
+
+  const templePlaces = PLACES
+    .filter(p => p.cat === 'temple')
+    .sort((a, b) => b.coins - a.coins);
+  document.getElementById('car-temple').innerHTML = templePlaces.map(cardHTML).join('');
+}
+function scrollCar(id, dir){
+  document.getElementById(id).scrollBy({left: dir*260, behavior:'smooth'});
+}
+
+/* ============ SEARCH ============ */
+let filters = {cat:'all', dist:null, star:0, zone:0};
+function renderCatChips(){
+  const cats = ['all','natural','temple','food','village'];
+  document.getElementById('catChips').innerHTML = cats.map(c=>{
+    const label = c==='all' ? 'ทั้งหมด' : CATEGORY_LABEL[c];
+    return `<button class="chip ${filters.cat===c?'selected':''}" data-cat="${c}">${label}</button>`;
+  }).join('');
+}
+document.getElementById('catChips').addEventListener('click', e=>{
+  const b = e.target.closest('.chip'); if(!b) return;
+  filters.cat = b.dataset.cat; renderCatChips();
+});
+document.getElementById('distChips').addEventListener('click', e=>{
+  const b = e.target.closest('.chip'); if(!b) return;
+  filters.dist = (filters.dist===b.dataset.dist) ? null : b.dataset.dist;
+  document.querySelectorAll('#distChips .chip').forEach(c=>c.classList.toggle('selected', c.dataset.dist===filters.dist));
+});
+document.getElementById('starChips').addEventListener('click', e=>{
+  const b = e.target.closest('.chip'); if(!b) return;
+  filters.star = Number(b.dataset.star);
+  document.querySelectorAll('#starChips .chip').forEach(c=>c.classList.toggle('selected', Number(c.dataset.star)===filters.star));
+});
+document.getElementById('zoneChips').addEventListener('click', e=>{
+  const b = e.target.closest('.chip'); if(!b) return;
+  filters.zone = Number(b.dataset.zone);
+  document.querySelectorAll('#zoneChips .chip').forEach(c=>c.classList.toggle('selected', Number(c.dataset.zone)===filters.zone));
+});
+function runSearch(){
+  if (typeof PLACES === 'undefined') return;
+  let list = PLACES.filter(p=>{
+
+    if(filters.cat !== 'all' && p.cat !== filters.cat) return false;
+    
+    if(filters.dist === 'near' && !(p.dist <= 5)) return false;
+    if(filters.dist === 'mid' && !(p.dist >= 6 && p.dist <= 10)) return false;
+    if(filters.dist === 'far' && !(p.dist >= 11)) return false;
+    
+    if(p.stars < filters.star) return false;
+    
+    if(filters.zone !== null && filters.zone !== undefined) {
+      const selectedZoneName = ZONE_LABEL[filters.zone];
+      if (p.zone !== filters.zone && p.zone !== selectedZoneName) return false;
+    }
+
+    return true;
+  });
+
+  list.sort((a,b) => b.stars - a.stars);
+
+  const grid = document.getElementById('searchResults');
+  grid.innerHTML = list.length ? list.map(p=>`<div class="place-card grid-card" onclick="openModal('${p.id}')">
+      <img class="thumb" src="${p.img}" alt="${p.name}" loading="lazy" decoding="async">
+      <div class="coin-badge"><span class="coin-icon"></span>${p.coins}</div>
+      <div class="place-name">${p.name}</div>
+    </div>`).join('') : `<div class="empty-note">ไม่พบสถานที่ที่ตรงกับตัวกรอง ลองปรับเงื่อนไขใหม่อีกครั้ง</div>`;
+}
+
+/* ============ MODAL ============ */
+function openModal(id){
+  if (typeof PLACES === 'undefined') return;
+  const p = PLACES.find(x=>x.id===id);
+  if(!p) return;
+  const isFav = state.favorites.includes(id);
+  const visited = state.checkins.includes(id);
+  document.getElementById('modalPhotoArea').innerHTML = `
+    <div class="close-x" onclick="closeModal()">✕</div>
+    <img src="${p.img}" alt="${p.name}" loading="lazy" decoding="async">`;
+  document.getElementById('modalBody').innerHTML = `
+    <div class="modal-top-row">
+      <span class="pill">⭐ ${p.stars.toFixed(1)} / 5</span>
+      <span class="pill">🚩 ${p.dist} กม.</span>
+      <span class="pill">💰 ${p.price}</span>
+      <span class="pill">📍 ${p.zone}</span>
+      <span class="pill" style="background:var(--gold-light); border-color:var(--gold-dark);"><span class="coin-icon" style="display:inline-block;vertical-align:-2px;margin-right:6px;"></span>${p.coins} เหรียญ + ${p.xp} EXP</span>
+    </div>
+    <h2 class="modal-title">${p.name}</h2>
+    ${p.alias ? `<div style="color:var(--gold-dark); font-weight:600; margin-bottom:8px;">🎖️ ฉายาเฉพาะ: ${p.alias}</div>` : ''}
+    <div class="modal-desc">${p.desc}</div>
+    <div class="stat-row">
+      <div class="stat-box">หมวดหมู่<b>${CATEGORY_LABEL[p.cat]}</b></div>
+      <div class="stat-box">ระยะทางโดยประมาณ<b>${p.dist} กม. จากตัวเมือง</b></div>
+      <div class="stat-box">สถานะ<b>${visited?'เช็คอินแล้ว ✓':'ยังไม่เคยไป'}</b></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-fav ${isFav?'active':''}" onclick="toggleFav('${p.id}')">${isFav?'★ อยู่ในรายการโปรด':'☆ เพิ่มรายการโปรด'}</button>
+      <button class="btn btn-drive" onclick="driveTo(${p.lat},${p.lng},'${p.name.replace(/'/g,"")}')">🚗 นำทางไปเลย</button>
+      <button class="btn btn-checkin" id="checkinBtn" ${visited?'disabled':''} onclick="checkIn('${p.id}')">${visited?'รับรางวัลแล้ว ✓':'✅ เช็คอิน รับเหรียญ+EXP'}</button>
+    </div>
+  `;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+function closeModal(){ document.getElementById('modalOverlay').classList.remove('open'); }
+
+function toggleFav(id){
+  const i = state.favorites.indexOf(id);
+  if(i>-1) state.favorites.splice(i,1); else state.favorites.push(id);
+  saveState(); openModal(id); refreshAll();
+}
+function driveTo(lat,lng,name){
+  const url = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+  window.open(url, '_blank');
+  showToast('เปิดเส้นทางไป '+name+' ใน Google Maps แล้ว');
+}
+function checkIn(id){
+  if(state.checkins.includes(id)) return;
+  const p = PLACES.find(x=>x.id===id);
+  if(!p) return;
+  state.checkins.push(id);
+  state.coins += p.coins;
+  addXP(p.xp);
+  saveState();
+  openModal(id);
+  refreshAll();
+  showToast(`เช็คอินสำเร็จ! +${p.coins} เหรียญ, +${p.xp} EXP`);
+}
+function addXP(amount){
+  state.xp += amount;
+  while(state.xp >= xpNeeded(state.level)){
+    state.xp -= xpNeeded(state.level);
+    state.level += 1;
+    showToast(`🎉 เลเวลอัป! ตอนนี้คุณคือ Lv.${state.level}`);
+  }
+}
+
+/* ============ ACTIVITIES ============ */
+function renderEvents(){
+  if (typeof PLACES === 'undefined') return;
+  const withEvents = PLACES.filter(p=>p.event);
+  const el = document.getElementById('eventsList');
+  el.innerHTML = withEvents.length ? withEvents.map(p=>`
+    <div class="event-card">
+      <img src="${p.img}" alt="${p.name}" loading="lazy" decoding="async">
+      <div class="event-info">
+        <h3>${p.name}</h3>
+        <p>${p.event.desc}</p>
+      </div>
+    </div>`).join('') : `<div class="no-event">ยังไม่มีกิจกรรมพิเศษในช่วงนี้ กลับมาเช็คใหม่เร็วๆ นี้</div>`;
+}
+
+/* ============ PROFILE ============ */
+function currentTitle(){
+  let t = TITLES[0];
+  TITLES.forEach(x=>{ if(state.level >= x.min) t = x; });
+  return t.name;
+}
+
+/* ============ TOAST ============ */
+let toastTimer;
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.classList.remove('show'), 2600);
+}
+
+/* ============ REFRESH ALL ============ */
+function refreshAll(){
+  renderCarousels();
+  renderCatChips();
+  renderEvents();
+  renderRedeem();
+  renderShopGrid();
+  renderProfile();
+}
+
+const TITLES = [
+  {min:1, name:'นักท่องเที่ยวมือใหม่'},
+  {min:2, name:'นักผจญภัยฝึกหัด'},
+  {min:3, name:'นักสำรวจล้านนา'},
+  {min:5, name:'เจ้าถิ่นเชียงใหม่'},
+  {min:8, name:'ตำนานนักเดินทาง'}
+];
+
 const DataStore = (function(){
   const hasClaudeStorage = (typeof window.storage !== 'undefined') && window.storage && typeof window.storage.get === 'function';
   function lsKey(key, shared){ return 'cnx_app::' + (shared ? 'shared::' : 'me::') + key; }
@@ -608,304 +1792,61 @@ const DataStore = (function(){
   };
 })();
 
-/*zone*/
-const ZONE_LABEL = {
-  0: 'อำเภอเมือง เชียงใหม่',
-  1: 'อำเภอ จอมทอง',
-  2: 'อำเภอ แม่แจ่ม',
-  3: 'อำเภอ เชียงดาว',
-  4: 'อำเภอ ดอยสะเก็ด',
-  5: 'อำเภอ แม่แตง',
-  6: 'อำเภอ แม่ริม',
-  7: 'อำเภอ สะเมิง',
-  8: 'อำเภอ ฝาง',
-  9: 'อำเภอ แม่อาย',
-  10: 'อำเภอ พร้าว',
-  11: 'อำเภอ สันป่าตอง',
-  12: 'อำเภอ สันกำแพง',
-  13: 'อำเภอ สันทราย',
-  14: 'อำเภอ หางดง',
-  15: 'อำเภอ ฮอด',
-  16: 'อำเภอ ดอยเต่า',
-  17: 'อำเภอ อมก๋อย',
-  18: 'อำเภอ สารภี',
-  19: 'อำเภอ เวียงแหง',
-  20: 'อำเภอ ไชยปราการ',
-  21: 'อำเภอ แม่วาง',
-  22: 'อำเภอ แม่ออน',
-  23: 'อำเภอ ดอยหล่อ',
-  24: 'อำเภอ กัลยาณิวัฒนา',
-  25: 'DEBUG_MODE'
-};
+function renderProfile(){
+  document.getElementById('bigAvatar').src = state.avatar;
+  document.getElementById('chipAvatar').src = state.avatar;
+  document.getElementById('lvTag').textContent = 'LV.'+state.level;
+  document.getElementById('chipLv').textContent = 'Lv.'+state.level;
+  const need = xpNeeded(state.level);
+  document.getElementById('xpBar').style.width = Math.min(100, (state.xp/need)*100)+'%';
+  document.getElementById('xpText').textContent = `${state.xp} / ${need}`;
+  document.getElementById('playerTitle').textContent = currentTitle();
+  document.getElementById('usernameTag').textContent = currentUser ? ('@'+currentUser.username) : '';
 
-/* ============ DATA ============ */
-const CATEGORY_LABEL = {natural:'ธรรมชาติ', temple:'วัด', food:'ร้านอาหาร/คาเฟ่', village:'หมู่บ้าน/ชุมชน'};
+  const visitedCount = state.checkins.length;
+  document.getElementById('playerDesc').textContent = visitedCount===0
+    ? 'ยังไม่เคยเช็คอินที่ไหนเลย ลองเริ่มออกเดินทางแล้วกลับมาปลดฉายาที่นี่กันเถอะ!'
+    : `เดินทางมาแล้ว ${visitedCount} สถานที่ สะสมเหรียญได้ ${state.coins} เหรียญ — เก็บให้ครบทุกหมวดเพื่อปลดฉายาใหม่!`;
 
-const PLACES = [
-  {id:'p1', name:'สวนพฤกษศาสตร์สมเด็จพระนางเจ้าสิริกิติ์', alias:'นักสำรวจพฤกษชาติแห่งล้านนา', cat:'natural', coins:100, xp:120, stars:4.6, dist:14, price:'100 บาท', zone:'อำเภอ แม่ริม', lat:18.9109, lng:98.8478,
-   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/images.jpg',
-   desc:'สวนพฤกษศาสตร์ขนาดใหญ่บนเชิงดอยสุเทพ ชมเรือนกระจกพันธุ์ไม้หายากและวิวภูเขาแบบพาโนรามา เหมาะกับการเดินเล่นถ่ายรูปทั้งวัน'},
-
-  {id:'p2', name:'ม่อนแจ่ม', alias:'ผู้สัมผัสสายลมและทะเลหมอกม่อนแจ่ม', cat:'natural', coins:56, xp:70, stars:4.7, dist:36, price:'56 บาท', zone:'อำเภอ แม่ริม', lat:18.9184, lng:98.7833,
-   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/ac711d30ecb88aa8.jpg',
-   desc:'จุดชมวิวทะเลหมอกชื่อดังของเชียงใหม่ บรรยากาศเย็นสบายตลอดปี มีที่พักกลางไร่สตรอว์เบอร์รีให้เลือกมากมาย'},
-
-  {id:'p3', name:'บ้านแม่กำปอง', alias:'นักเดินทางสายสโลว์ไลฟ์แม่กำปอง', cat:'village', coins:59, xp:80, stars:4.5, dist:44, price:'ไม่มีค่าเข้า', zone:'อำเภอ แม่ออน', lat:18.8752, lng:99.1799,
-   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/e05e7577e537f819.jpg',
-   desc:'หมู่บ้านเล็กๆ กลางหุบเขา มีร้านกาแฟ โฮมสเตย์ และสายหมอกยามเช้าที่สวยงาม เดินเที่ยวได้ทั้งวัน'},
-
-  {id:'p4', name:'น้ำตกแม่สา', alias:'ผู้คลายร้อนแห่งสายน้ำแม่สา', cat:'natural', coins:67, xp:75, stars:4.3, dist:18, price:'40 บาท', zone:'อำเภอ แม่ริม', lat:18.9420, lng:98.9047,
-   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/8df7ab98105b4423.jpg',
-   desc:'น้ำตกหินปูนไหลลดหลั่นเป็นชั้นๆ ร่มรื่นด้วยป่าไม้ เหมาะกับการเล่นน้ำคลายร้อน'},
-
-  {id:'p5', name:'ดอยอินทนนท์ (กิ่วแม่ปาน)', alias:'ผู้พิชิตจุดสูงสุดประเทศไทย', cat:'natural', coins:70, xp:90, stars:4.8, dist:58, price:'ค่าธรรมเนียมอุทยาน', zone:'อำเภอ แม่แจ่ม', lat:18.5314, lng:98.4870,
-   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/794f46245d32de32.jpg',
-   desc:'เส้นทางศึกษาธรรมชาติบนดอยอินทนนท์ วิวทุ่งหญ้าและทะเลหมอกที่สวยที่สุดแห่งหนึ่งของไทย'},
-
-  {id:'p6', name:'อ่างแก้ว มช.', alias:'นักพักผ่อนสายชิลริมอ่างแก้ว', cat:'natural', coins:40, xp:45, stars:4.2, dist:6, price:'ฟรี', zone:'อำเภอเมือง เชียงใหม่', lat:18.8022, lng:98.9524,
-   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/7dd14e1eab112e71.jpg',
-   desc:'อ่างเก็บน้ำกลางมหาวิทยาลัยเชียงใหม่ บรรยากาศร่มรื่น เหมาะปั่นจักรยานและนั่งพักผ่อน'},
-
-  {id:'p7', name:'วัดพระธาตุดอยสุเทพ', alias:'ผู้แสวงบุญดอยสุเทพ', cat:'temple', coins:200, xp:150, stars:4.9, dist:15, price:'ฟรี (รถกระเช้า 100)', zone:'อำเภอเมือง เชียงใหม่', lat:18.8047, lng:98.9217,
-   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/zone1/8.jpg',
-   desc:'วัดคู่บ้านคู่เมืองเชียงใหม่ บนยอดดอยสุเทพ ชมเจดีย์ทองอร่ามและวิวเมืองเชียงใหม่แบบ 360 องศา', event:{title:'งานทำบุญครั้งใหญ่', desc:'ในช่วงวันที่ 15 ถึงวันที่ 28 สิงหาคม วัดพระธาตุดอยสุเทพมีกิจกรรมงานทำบุญครั้งใหญ่ ขอเชิญร่วมกิจกรรม'}},
-
-  {id:'p8', name:'วัดดอยคำ', alias:'ผู้ศรัทธาหลวงพ่อทันใจ', cat:'temple', coins:40, xp:55, stars:4.4, dist:9, price:'ฟรี', zone:'อำเภอเมือง เชียงใหม่', lat:18.7710, lng:98.9535,
-   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/17fade699cfe660e.jpg',
-   desc:'วัดที่ประดิษฐานพระพุทธรูปองค์ใหญ่ สามารถชมวิวเมืองเชียงใหม่จากมุมสูงได้สวยงาม'},
-
-  {id:'p9', name:'วัดอุโมงค์', alias:'นักสำรวจอุโมงค์ธรรมะโบราณ', cat:'temple', coins:40, xp:55, stars:4.5, dist:7, price:'ฟรี', zone:'อำเภอเมือง เชียงใหม่', lat:18.7930, lng:98.9410,
-   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/9d45da30-1dbc-11eb-9275-d9e61fe8653e_original.jpg',
-   desc:'วัดเก่าแก่ที่มีอุโมงค์โบราณให้เดินชม บรรยากาศร่มรื่นด้วยต้นไม้ใหญ่และสวนธรรมะ'},
-
-  {id:'p10', name:'สวนผัก โอ้กะจู๋', cat:'food', coins:20, xp:25, stars:4.4, dist:8, price:'฿฿', zone:'อำเภอ สันทราย', lat:18.8064, lng:98.9678,
-   img:'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=1200&auto=format&fit=crop',
-   desc:'ร้านอาหารสายคลีน วัตถุดิบผักออร์แกนิกปลูกเอง เมนูสลัดและสเต็กยอดนิยม'},
-
-  {id:'p11', name:'GREENSMOKED', cat:'food', coins:20, xp:10000, stars:4.3, dist:5, price:'฿฿', zone:'อำเภอเมือง เชียงใหม่', lat:18.7990, lng:98.9700,
-   img:'https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1200&auto=format&fit=crop',
-   desc:'ร้านอาหารรมควันบรรยากาศอบอุ่น เมนูซิกเนเจอร์ปลาและเนื้อรมควันสไตล์บาร์บีคิว'},
-
-  {id:'p12', name:'ปูนแดงแกงร้อน', cat:'food', coins:30, xp:35, stars:4.6, dist:6, price:'฿฿฿', zone:'อำเภอ สารภี', lat:18.7900, lng:98.9750,
-   img:'https://images.unsplash.com/photo-1559847844-5315695dadae?q=80&w=1200&auto=format&fit=crop',
-   desc:'ร้านซีฟู้ดแซ่บสไตล์ไทย เมนูเด็ดกุ้งแม่น้ำผัดพริก และแกงร้อนรสจัดจ้าน'},
-
-  {id:'p13', name:'บ้านบ่อสร้าง', alias:'ผู้สืบสานหัตถกรรมร่มบ่อสร้าง', cat:'village', coins:35, xp:40, stars:4.1, dist:9, price:'ฟรี', zone:'อำเภอ สันกำแพง', lat:18.7797, lng:99.0928,
-   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/large-649076a03e860.jpg',
-   desc:'หมู่บ้านหัตถกรรมร่มบ่อสร้างชื่อดัง ชมการทำร่มกระดาษสาแบบดั้งเดิมและเลือกซื้อของฝาก'},
-
-  {id:'p14', name:'ศูนย์พัฒนาโครงการหลวงวัดจันทร์', alias:'ตามรอยพ่อ', cat:'natural', coins:50, xp:50, stars:4.3, dist:136, price:'ฟรี', zone:'อำเภอ กัลยาณิวัฒนา', lat:19.06822243204155, lng:98.29193583598456,
-   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/zone%2024/%E0%B8%A8%E0%B8%B9%E0%B8%99%E0%B8%A2%E0%B9%8C%E0%B8%9E%E0%B8%B1%E0%B8%92%E0%B8%99%E0%B8%B2%E0%B9%82%E0%B8%84%E0%B8%A3%E0%B8%87%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%AB%E0%B8%A5%E0%B8%A7%E0%B8%87%E0%B8%A7%E0%B8%B1%E0%B8%94%E0%B8%88%E0%B8%B1%E0%B8%99%E0%B8%97%E0%B8%A3%E0%B9%8C.png',
-   desc:'ศูนย์พัฒนาโครงการหลวงวัดจันทร์ ก่อกำเนิดขึ้นหลังจากที่ พระบาทสมเด็จพระบรมชนกาธิเบศร มหาภูมิพลอดุลยเดชมหาราช บรมนาถบพิตร ได้เสด็จพระราชดำเนินเยี่ยมเยียนราษฎรชาวเขาในเขตหมู่บ้านวัดจันทร์ เมื่อปี พ.ศ.2522 พระองค์ทรงทราบถึง ความยากลำบากของชาวเขาใน พื้นที่ จึงมีพระราชดำริให้มีการพัฒนาบ้านวัดจันทร์และหมู่บ้านใกล้เคียงเพื่อก่อตั้ง “ศูนย์พัฒนาโครงการหลวงวัดจันทร์” ขึ้น เพื่อช่วยให้สร้างอาชีพ สร้างรายได้ ให้ราษฎร เพื่อให้มีความเป็นอยู่ที่ดีขึ้นที่นี่เป็น แหล่งท่องไฮไลต์มีทิวทัศน์ ธรรมชาติสวยงาม ของป่าสนที่ใหญ่ที่สุดในประเทศไทย โดยพื้นที่โครงการหลวงวัดจันทร์ ที่คุ้นเคยของนัก ท่องเที่ยวคือ ที่องค์การอุตสาหกรรมป่าไม้ (อปป) และอีกหนึ่งจุดคือ ที่ตั้งของศูนย์พัฒนาโครงการหลวงวัดจันทร์ จะตั้งอยู่คนละพื้นที่ แต่ทั้งสองแห่งอยู่ในพื้นที่ดูแลของ โครงการหลวงเช่นกัน '},
-
-  {id:'p15', name:'สวนป่าหลวงวัดจันทร์ องค์การอุตสาหกรรมป่าไม้วัดจันทร์', alias:'สวนของพ่อ', cat:'natural', coins:50, xp:50, stars:4.1, dist:133, price:'ฟรี', zone:'อำเภอ กัลยาณิวัฒนา', lat:19.080741229922186, lng:98.33284747117878,
-   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/zone%2024/%E0%B8%AA%E0%B8%A7%E0%B8%99%E0%B8%9B%E0%B9%88%E0%B8%B2%E0%B8%AB%E0%B8%A5%E0%B8%A7%E0%B8%87%E0%B8%A7%E0%B8%B1%E0%B8%94%E0%B8%88%E0%B8%B1%E0%B8%99%E0%B8%97%E0%B8%A3%E0%B9%8C%20%E0%B8%AD%E0%B8%87%E0%B8%84%E0%B9%8C%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%AD%E0%B8%B8%E0%B8%95%E0%B8%AA%E0%B8%B2%E0%B8%AB%E0%B8%81%E0%B8%A3%E0%B8%A3%E0%B8%A1%E0%B8%9B%E0%B9%88%E0%B8%B2%E0%B9%84%E0%B8%A1%E0%B9%89%E0%B8%A7%E0%B8%B1%E0%B8%94%E0%B8%88%E0%B8%B1%E0%B8%99%E0%B8%97%E0%B8%A3%E0%B9%8C.jpg',
-   desc:'สวนป่าหลวงวัดจันทร์ องค์การอุตสาหกรรมป่าไม้วัดจันทร์ ก่อตั้งพร้อมกันกับ ศูนย์พัฒนาโครงการหลวงวัดจันทร์'},
-
-  {id:'p16', name:'น้ำตกโป่งสะแยง', alias:'น้ำตกโป่งสะแยง', cat:'natural', coins:40, xp:100, stars:4, dist:136+4, price:'ฟรี', zone:'อำเภอ กัลยาณิวัฒนา', lat:19.071976753237646, lng:98.30205611645135,
-   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/zone%2024/%E0%B8%99%E0%B9%89%E0%B8%B3%E0%B8%95%E0%B8%81%E0%B9%82%E0%B8%9B%E0%B9%88%E0%B8%87%E0%B8%AA%E0%B8%B0%E0%B9%81%E0%B8%A2%E0%B8%87.jpg',
-   desc:'เป็นน้ำตกธรรมชาติที่ตั้งอยู่ระหว่างทางจากบ้านขุนแม่รวมไปยังบ้านห้วยเขียดแห้ง เป็นจุดท่องเที่ยวเชิงธรรมชาติที่บรรยากาศเงียบสงบและน้ำใสเย็นสบาย *หมายเหตุ น้ำตกโป่งสะแยง ไม่มีสถานที่ที่ชัดเจนในแผนที่แต่คาดการว่า อยู่ที่ ตำบลแจ่มหลวง อำเภอกัลยาณิวัฒนา จังหวัดเชียงใหม่ ห่างจากหมู่บ้านประมาณ 4 กิโลเมตร*'},
-
-  {id:'p17', name:'ดอยโป่งกา', alias:'ดอยโป่งกา', cat:'natural', coins:80, xp:200, stars:4.1, dist:167, price:'ฟรี', zone:'อำเภอ กัลยาณิวัฒนา', lat:18.907864055008773, lng:98.19264496237363,
-   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/zone%2024/%E0%B8%94%E0%B8%AD%E0%B8%A2%E0%B9%82%E0%B8%9B%E0%B9%88%E0%B8%87%E0%B8%81%E0%B8%B2.jpg',
-   desc:'ดอยโป่งกา เป็นดอยหรือภูเขาที่ชาวบ้านขุนแม่รวมให้ความเคารพนับถือและถือว่าเป็นพื้นที่ศักดิ์สิทธิ์ เพราะในแต่ละปีชาวบ้านจะขึ้นไปบนยอดดอยทำพิธีสวดมนต์เพื่อขอให้ฟ้าฝนตกต้องตามฤดูกาล เป็นความเชื่อที่ผูกกับการทำกินและการอยู่ร่วมกับธรรมชาติของคนในพื้นที่อย่างแนบแน่น ความหมายของดอยจึงไม่ใช่แค่ “จุดชมวิว” แต่เป็นเหมือนพื้นที่รวมใจของชุมชนที่ทำหน้าที่ทั้งทางจิตวิญญาณและทางสังคมในเวลาเดียวกัน'},
-
-  {id:'p18', name:'วัดจันทร์(วิหารแว่นตาดำ)', alias:'แดดแรง', cat:'temple', coins:30, xp:100, stars:4.7, dist:136, price:'ฟรี', zone:'อำเภอ กัลยาณิวัฒนา', lat:18.907864055008773, lng:98.19264496237363,
-   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/zone%2024/%E0%B8%A7%E0%B8%B1%E0%B8%94%E0%B8%88%E0%B8%B1%E0%B8%99%E0%B8%97%E0%B8%A3%E0%B9%8C.jpg',
-   desc:'วัดจันทร์ ตั้งอยู่ที่ตำบลบ้านจันทร์ อำเภอกัลยาณิวัฒนา จังหวัดเชียงใหม่ สร้างมานานกว่า 300 ปี มีความโดดเด่น คือ วิหารแว่นตาดำ ลักษณะคล้ายคนสวมแว่นตา'},
-
-  {id:'p19', name:'นานา ลาบขม', cat:'food', coins:20, xp:30, stars:5, dist:141, price:'฿฿', zone:'อำเภอ กัลยาณิวัฒนา', lat:19.041569826740172, lng:98.27018271738439, 
-   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/zone%2024/%E0%B8%99%E0%B8%B2%E0%B8%99%E0%B8%B2%20%E0%B8%A5%E0%B8%B2%E0%B8%9A%E0%B8%82%E0%B8%A1.jpg',
-   desc:'นานา ลาบขมเตรียมมอบความแซ่บหลายแก่ผู้รับประทาน'},
-
-  {id:'p20', name:'ร้านครัวริมทุ่ง', cat:'food', coins:20, xp:30, stars:4.7, dist:137, price:'฿฿', zone:'อำเภอ กัลยาณิวัฒนา', lat:19.06324239035284, lng:98.28917225457371,  
-   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/zone%2024/%E0%B8%A3%E0%B9%89%E0%B8%B2%E0%B8%99%E0%B8%84%E0%B8%A3%E0%B8%B1%E0%B8%A7%E0%B8%A3%E0%B8%B4%E0%B8%A1%E0%B8%97%E0%B8%B8%E0%B9%88%E0%B8%87%20RimTung.jpg',
-   desc:'ร้านครัวริมทุ่ง'},
-
-  {id:'p21', name:'Chan Coffee', cat:'food', coins:35, xp:30, stars:4.8, dist:135, price:'฿', zone:'อำเภอ กัลยาณิวัฒนา', lat:19.072858680381803, lng:98.30367304424222,  
-   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/zone%2024/Chan%20Coffee.png',
-   desc:'ร้านกาแฟสไตล์ minimal'},
-
-  {id:'p22', name:'Porwa Pizza & drip coffee', alias:'mama miya', cat:'food', coins:35, xp:30, stars:4.9, dist:134, price:'฿฿', zone:'อำเภอ กัลยาณิวัฒนา', lat:19.071537083101692, lng:98.30339023930769,
-   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/zone%2024/Porwa%20Pizza%20%26%20drip%20coffee.png',
-   desc:'ร้านพิชช่า จากแดนเหนือ'},
-
-  {id:'p23', name:'สดชื่นแจ่มใส คอฟฟี่88-coffee slow bar.', cat:'food', coins:35, xp:30, stars:4.9, dist:137, price:'฿', zone:'อำเภอ กัลยาณิวัฒนา', lat:19.083336881383907, lng:98.3235577213805,  
-   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/zone%2024/%E0%B8%AA%E0%B8%94%E0%B8%8A%E0%B8%B7%E0%B9%88%E0%B8%99%E0%B9%81%E0%B8%88%E0%B9%88%E0%B8%A1%E0%B9%83%E0%B8%AA%20%E0%B8%84%E0%B8%AD%E0%B8%9F%E0%B8%9F%E0%B8%B5%E0%B9%8888-coffee%20slow%20bar..png',
-   desc:'สดชื่น'},
-
-  {id:'p24', name:'ประตูท่าแพ', alias:'ประตูสู่เชียงใหม่', cat:'village', coins:35, xp:30, stars:5, dist:0, price:'0', zone:'อำเภอเมือง เชียงใหม่', lat:18.78780583802771, lng:98.99336830161353,   
-   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/zone1/1.jpg',
-   desc:'แลนด์มาร์กสำคัญใจกลางเมือง จุดถ่ายรูปยอดนิยมและลานกิจกรรม'},
-
-  {id:'p25', name:'วัดเจดีย์หลวงวรวิหาร', alias:'วัดเจดีย์หลวงวรวิหาร', cat:'temple', coins:35, xp:30, stars:5, dist:0, price:'0', zone:'อำเภอเมือง เชียงใหม่', lat:18.78697090384805, lng:98.98657923315179,    
-   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/zone1/2.jpg',
-   desc:'วัดเก่าแก่กลางเมืองที่มีซากเจดีย์ใหญ่ที่สุดในเชียงใหม่'},
-
-  {id:'p26', name:'ถนนนิมมานเหมินท์', alias:'ถนนนิมมานเหมินท์', cat:'village', coins:35, xp:30, stars:5, dist:0, price:'0', zone:'อำเภอเมือง เชียงใหม่', lat:18.79582838430761, lng:98.96581010333043,
-   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/zone1/3.jpg',
-   desc:'ย่านช้อปปิ้ง คาเฟ่ และไลฟ์สไตล์ที่ทันสมัยของคนรุ่นใหม่'},
-
-  {id:'p27', name:'วัดหลวงขุนวิน', alias:'วัดหลวงขุนวิน', cat:'temple', coins:35, xp:30, stars:5, dist:0, price:'0', zone:'อำเภอ แม่วาง', lat:18.79582838430761, lng:98.96581010333043,
-   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/zone22/1.jpg',
-   desc:'วัดไม้โบราณกลางลึกในป่าลึก สงบร่มเย็นและงดงามมาก'},
-
-  {id:'p28', name:'น้ำตกแม่สะป๊อก', alias:'น้ำตกแม่สะป๊อก', cat:'natural', coins:35, xp:30, stars:5, dist:0, price:'0', zone:'อำเภอ แม่วาง', lat:18.79582838430761, lng:98.96581010333043,
-   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/zone22/2.jpg',
-   desc:'น้ำตกธรรมชาติสายเล็ก เล่นน้ำและพักผ่อนหย่อนใจได้'},
-
-  {id:'p29', name:'coin fixd', cat:'natural', coins:1000000, xp:0, stars:0, dist:0, price:'0', zone:'DEBUG_MODE', lat:18.79582838430761, lng:98.96581010333043,
-   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/onlything.png',
-   desc:'DEBUG_MODE'},
-
-  {id:'p30', name:'xp fixd', cat:'natural', coins:0, xp:1000000, stars:0, dist:0, price:'0', zone:'DEBUG_MODE', lat:18.79582838430761, lng:98.96581010333043,
-   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/onlything.png',
-   desc:'DEBUG_MODE'},
-
-  {id:'p31', name:'บ้านป่าบงเปียง', alias:'บ้านป่าบงเปียง', cat:'village', coins:35, xp:30, stars:5, dist:0, price:'0', zone:'อำเภอ แม่แจ่ม', lat:18.79582838430761, lng:98.96581010333043,
-   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/later/1.jpg',
-   desc:'นาขั้นบันไดชื่อดัง สวยงามที่สุดช่วงหน้าฝนและหน้าเกี่ยวข้าว'},
-
-  {id:'p32', name:'Pema Cafe', alias:'Pema Cafe', cat:'food', coins:35, xp:30, stars:5, dist:0, price:'0', zone:'อำเภอ แม่แจ่ม', lat:18.79582838430761, lng:98.96581010333043,
-   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/later/2.jpg',
-   desc:'คาเฟ่บรรยากาศดี เครื่องดื่มอร่อย ท่ามกลางวิวธรรมชาติ'},
-
-  {id:'p33', name:'วัดถ้ำเชียงดาว', alias:'วัดถ้ำเชียงดาว', cat:'natural', coins:35, xp:30, stars:5, dist:0, price:'0', zone:'อำเภอ เชียงดาว', lat:18.79582838430761, lng:98.96581010333043,
-   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/later/3.jpg',
-   desc:'ถ้ำหินงอกหินย้อยตระการตา และมีน้ำไหลผ่านหน้าถ้ำใสสะอาด'},
-  
-  {id:'p34', name:'ขาหมูเชียงดาว (เจ้าเก่า)', alias:'ขาหมูเชียงดาว (เจ้าเก่า)', cat:'food', coins:35, xp:30, stars:5, dist:0, price:'0', zone:'อำเภอ เชียงดาว', lat:18.79582838430761, lng:98.96581010333043,
-   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/later/4.jpg',
-   desc:'ขาหมูพะโล้เนื้อนุ่มคากิเด้งในตำนาน ที่เปิดมานานหลายสิบปี'},
-
-  {id:'p35', name:'เขื่อนแม่งัดสมบูรณ์ชล', alias:'เขื่อนแม่งัดสมบูรณ์ชล', cat:'natural', coins:35, xp:30, stars:5, dist:0, price:'0', zone:'อำเภอ แม่แตง', lat:18.79582838430761, lng:98.96581010333043,
-   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/later/5.jpg',
-   desc:'จุดล่องแพ พักผ่อน และทำกิจกรรมทางน้ำ'},
-
-  {id:'p36', name:'น้ำพุร้อนโป่งเดือด', alias:'น้ำพุร้อนโป่งเดือด', cat:'natural', coins:35, xp:30, stars:5, dist:0, price:'0', zone:'อำเภอ แม่แตง', lat:18.79582838430761, lng:98.96581010333043,
-   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/later/6.jpg',
-   desc:'แหล่งท่องเที่ยวเชิงสุขภาพในอุทยานแห่งชาติ'},
-
-  {id:'p37', name:'น้ำพุร้อนโป่งกวาว', alias:'น้ำพุร้อนโป่งกวาว', cat:'natural', coins:35, xp:30, stars:5, dist:0, price:'0', zone:'อำเภอ สะเมิง', lat:18.79582838430761, lng:98.96581010333043,
-   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/later/7.jpg',
-   desc:'แหล่งน้ำพุร้อนธรรมชาติสำหรับแช่ผ่อนคลาย'},
-
-  {id:'p38', name:'ถ้ำหลวงแม่สาบ', alias:'ถ้ำหลวงแม่สาบ', cat:'natural', coins:35, xp:30, stars:5, dist:0, price:'0', zone:'อำเภอ ฝาง', lat:18.79582838430761, lng:98.96581010333043,
-   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/later/8.jpg',
-   desc:'ถ้ำหินงอกหินย้อยที่มีความสวยงามแปลกตา'},
-
-    {id:'p39', name:'อุทยานแห่งชาติดอยผ้าห่มปก', alias:'อุทยานแห่งชาติดอยผ้าห่มปก', cat:'natural', coins:35, xp:30, stars:5, dist:0, price:'0', zone:'อำเภอ ฝาง', lat:18.79582838430761, lng:98.96581010333043,
-   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/later/9.jpg',
-   desc:'ถ้ดอยที่สูงเป็นอันดับ 2 ของประเทศ เหมาะสำหรับสายแคมป์ปิ้งที่ต้องการเดินป่าขึ้นไปชมพระอาทิตย์ขึ้น ทะเลหมอก และดูดาวในยามค่ำคืน'},
-
-    {id:'p40', name:'ชุมชนบ้านยาง', alias:'ชุมชนบ้านยาง', cat:'village', coins:35, xp:30, stars:5, dist:0, price:'0', zone:'อำเภอ ฝาง', lat:18.79582838430761, lng:98.96581010333043,
-   img:'https://raw.githubusercontent.com/HiXIDX/sourcecode/refs/heads/main/later/10.jpg',
-   desc:'ถ้หมู่บ้านเล็กๆ ที่ยังคงรักษาวิถีชีวิตและวัฒนธรรมดั้งเดิมของชาวจีนยูนนานไว้อย่างเหนียวแน่น'},
-];
-
-const AVATAR_DEFAULT = 'https://api.dicebear.com/7.x/adventurer/svg?seed=chiangmai-traveler&backgroundColor=f6cf6b';
-
-const TITLES = [
-  {min:1, name:'นักท่องเที่ยวมือใหม่'},
-  {min:2, name:'นักผจญภัยฝึกหัด'},
-  {min:3, name:'นักสำรวจล้านนา'},
-  {min:5, name:'เจ้าถิ่นเชียงใหม่'},
-  {min:8, name:'ตำนานนักเดินทาง'}
-];
-
-const REWARDS = [
-  {id:'r1', name:'ส่วนลดค่าที่พัก 10%', cost:100},
-  {id:'r2', name:'คูปองกาแฟฟรี 1 แก้ว', cost:40},
-  {id:'r3', name:'เสื้อยืดที่ระลึกแอ่วเชียงใหม่', cost:250},
-  {id:'r4', name:'ส่วนลดค่าเช่ารถ 15%', cost:150}
-];
-
-/* ============ AI ASSISTANT ============
-   1) สมัคร Anthropic API key แล้ว deploy เซิร์ฟเวอร์กลาง (ดูคู่มือ DEPLOY_GUIDE.md ที่แนบมาด้วย)
-   2) แก้ค่า AI_ENDPOINT ด้านล่างนี้ให้เป็น URL ของเซิร์ฟเวอร์ที่ deploy แล้ว เช่น
-      const AI_ENDPOINT = "https://cnx-ai-proxy.yourname.workers.dev";
-   3) ห้ามใส่ Anthropic API key ตรงนี้หรือที่ไหนในไฟล์นี้เด็ดขาด — key ต้องอยู่ในเซิร์ฟเวอร์เท่านั้น
-*/
-const AI_ENDPOINT = ""; // <-- ใส่ URL เซิร์ฟเวอร์ของคุณตรงนี้หลัง deploy เสร็จ
-
-const AI_QUICK_PROMPTS = [
-  'มีเวลาครึ่งวัน ชอบธรรมชาติ ไปไหนดี',
-  'แนะนำร้านอาหารอร่อยใกล้เมือง',
-  'พาไปวัดสวยๆ สักที่',
-  'มีกิจกรรมพิเศษช่วงนี้ไหม'
-];
-let chatHistory = [];
-
-function renderAiQuickPrompts(){
-  document.getElementById('aiQuickPrompts').innerHTML = AI_QUICK_PROMPTS
-    .map(q=>`<button onclick="document.getElementById('chatInput').value='${q.replace(/'/g,"")}'; sendChat();">${q}</button>`).join('');
-}
-
-function appendChatBubble(role, text, extraClass){
-  const win = document.getElementById('chatWindow');
-  const div = document.createElement('div');
-  div.className = 'chat-bubble ' + role + (extraClass ? ' '+extraClass : '');
-  div.textContent = text;
-  win.appendChild(div);
-  win.scrollTop = win.scrollHeight;
-  return div;
-}
-
-async function sendChat(){
-  const input = document.getElementById('chatInput');
-  const prompt = input.value.trim();
-  if(!prompt) return;
-
-  if(!AI_ENDPOINT){
-    appendChatBubble('user', prompt);
-    appendChatBubble('ai', 'ยังไม่ได้ตั้งค่าเซิร์ฟเวอร์ AI นะครับ — ไปตั้งค่า AI_ENDPOINT ในโค้ดก่อน (ดูคู่มือ DEPLOY_GUIDE.md ที่แนบมาให้)', 'error');
-    input.value = '';
-    return;
-  }
-
-  input.value = '';
-  const sendBtn = document.getElementById('chatSendBtn');
-  sendBtn.disabled = true;
-  appendChatBubble('user', prompt);
-  const loadingBubble = appendChatBubble('ai', 'กำลังคิด...', 'loading');
-
-  try{
-    const res = await fetch(AI_ENDPOINT, {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({prompt})
-    });
-    const data = await res.json();
-    loadingBubble.remove();
-    if(!res.ok || data.error){
-      appendChatBubble('ai', 'ขออภัย เกิดข้อผิดพลาด: ' + (data.error || res.status), 'error');
-    } else {
-      appendChatBubble('ai', data.text || 'ไม่มีคำตอบ');
+  const catCounts = {};
+  const badges = [];
+  state.checkins.forEach(id=>{
+    if (typeof PLACES === 'undefined') return;
+    const p = PLACES.find(x=>x.id===id);
+    if(p) {
+      catCounts[p.cat]=(catCounts[p.cat]||0)+1;
+      if(p.alias) badges.push(`🎖️ ${p.alias}`);
     }
-  }catch(e){
-    loadingBubble.remove();
-    appendChatBubble('ai', 'เชื่อมต่อเซิร์ฟเวอร์ AI ไม่ได้ ลองตรวจสอบ AI_ENDPOINT หรือการเชื่อมต่ออินเทอร์เน็ต', 'error');
-  } finally {
-    sendBtn.disabled = false;
-  }
+  });
+
+  if((catCounts.temple||0) >= 1) badges.push('🙏 ผู้แสวงบุญ');
+  if((catCounts.natural||0) >= 2) badges.push('🌿 นักธรรมชาตินิยม');
+  if((catCounts.food||0) >= 2) badges.push('🍜 นักชิมล้านนา');
+  if(state.favorites.length >= 3) badges.push('💛 คอลเลกเตอร์');
+  if(typeof PLACES !== 'undefined' && visitedCount >= PLACES.length) badges.push('🏆 พิชิตเชียงใหม่');
+
+  document.getElementById('titleBadges').innerHTML = badges.length
+    ? badges.map(b=>`<div class="badge-pill">${b}</div>`).join('')
+    : `<div class="badge-pill" style="opacity:.6;">ยังไม่มีฉายา — ไปเที่ยวเพื่อปลดล็อกกันเลย!</div>`;
+
+  renderAchievements();
 }
 
-/* ============ STATE ============ */
-let state = {
-  level:1, xp:0, coins:0,
-  favorites:[], checkins:[], redeemed:[],
-  avatar: AVATAR_DEFAULT
-};
-let currentUser = null; // {username, displayName}
-let authMode = 'login';
-
-function xpNeeded(level){ return level*560; }
-
-/* very light non-cryptographic hash — demo only, NOT real security */
-function simpleHash(str){
-  let hash = 0;
-  for(let i=0;i<str.length;i++){ hash = (hash<<5)-hash+str.charCodeAt(i); hash|=0; }
-  return 'h'+Math.abs(hash).toString(36)+str.length;
+function renderAchievements(){
+  if (typeof PLACES === 'undefined') return;
+  const filterVal = document.getElementById('achieveFilter').value;
+  const list = document.getElementById('achieveList');
+  let items = [];
+  if(filterVal==='favorite'){
+    items = state.favorites.map(id=>PLACES.find(p=>p.id===id)).filter(Boolean);
+  } else if(filterVal==='all'){
+    items = state.checkins.map(id=>PLACES.find(p=>p.id===id)).filter(Boolean);
+  } else {
+    items = state.checkins.map(id=>PLACES.find(p=>p.id===id)).filter(p=>p && p.cat===filterVal);
+  }
+  list.innerHTML = items.length
+    ? items.map(p=>`<div class="achieve-item"><span>${p.name} ${p.alias ? `<br><small style="color:var(--gold); font-size:11px;">[ฉายา: ${p.alias}]</small>` : ''}</span><span class="cnt">+${p.coins}🪙</span></div>`).join('')
+    : `<div class="achieve-item" style="justify-content:center; opacity:.6;">ยังไม่มีข้อมูลในหมวดนี้</div>`;
 }
 
 function setAuthMode(mode){
@@ -958,246 +1899,37 @@ async function submitAuth(){
   }
 }
 
-async function startSession(username){
-  try{ await DataStore.set('cnx-session', JSON.stringify({username}), false); }
-  catch(e){ console.error('session save failed', e); }
-}
-function applyAccount(account){
-  currentUser = {username: account.username, displayName: account.displayName};
-  state = {
-    level: account.level || 1, xp: account.xp || 0, coins: account.coins || 0,
-    favorites: account.favorites || [], checkins: account.checkins || [], redeemed: account.redeemed || [],
-    avatar: account.avatar || AVATAR_DEFAULT
-  };
-  refreshAll();
-}
-function showApp(){
-  document.getElementById('loginPage').style.display = 'none';
-  document.getElementById('appShell').style.display = 'block';
-}
-function showLogin(){
-  document.getElementById('appShell').style.display = 'none';
-  document.getElementById('loginPage').style.display = 'flex';
-  document.getElementById('authUsername').value = '';
-  document.getElementById('authPassword').value = '';
-}
-async function logout(){
-  try{ await DataStore.delete('cnx-session', false); }catch(e){}
-  currentUser = null;
-  showLogin();
-  showToast('ออกจากระบบแล้ว');
-}
+const ZONE_LABEL = {
+  0: 'อำเภอเมือง เชียงใหม่',
+  1: 'อำเภอ จอมทอง',
+  2: 'อำเภอ แม่แจ่ม',
+  3: 'อำเภอ เชียงดาว',
+  4: 'อำเภอ ดอยสะเก็ด',
+  5: 'อำเภอ แม่แตง',
+  6: 'อำเภอ แม่ริม',
+  7: 'อำเภอ สะเมิง',
+  8: 'อำเภอ ฝาง',
+  9: 'อำเภอ แม่อาย',
+  10: 'อำเภอ พร้าว',
+  11: 'อำเภอ สันป่าตอง',
+  12: 'อำเภอ สันกำแพง',
+  13: 'อำเภอ สันทราย',
+  14: 'อำเภอ หางดง',
+  15: 'อำเภอ ฮอด',
+  16: 'อำเภอ ดอยเต่า',
+  17: 'อำเภอ อมก๋อย',
+  18: 'อำเภอ สารภี',
+  19: 'อำเภอ เวียงแหง',
+  20: 'อำเภอ ไชยปราการ',
+  21: 'อำเภอ แม่วาง',
+  22: 'อำเภอ แม่ออน',
+  23: 'อำเภอ ดอยหล่อ',
+  24: 'อำเภอ กัลยาณิวัฒนา',
+  25: 'DEBUG_MODE'
+};
 
-async function saveState(){
-  if(!currentUser) return;
-  try{
-    let prev = {};
-    try{
-      const existing = await DataStore.get('account:'+currentUser.username, true);
-      if(existing && existing.value) prev = JSON.parse(existing.value);
-    }catch(e){ prev = {}; }
-    const account = {
-      username: currentUser.username,
-      displayName: currentUser.displayName,
-      passwordHash: prev.passwordHash,
-      avatar: state.avatar, level: state.level, xp: state.xp, coins: state.coins,
-      favorites: state.favorites, checkins: state.checkins, redeemed: state.redeemed
-    };
-    await DataStore.set('account:'+currentUser.username, JSON.stringify(account), true);
-  }catch(e){ console.error('save failed', e); }
-}
+const CATEGORY_LABEL = {natural:'ธรรมชาติ', temple:'วัด', food:'ร้านอาหาร/คาเฟ่', village:'หมู่บ้าน/ชุมชน'};
 
-async function initApp(){
-  try{
-    const sess = await DataStore.get('cnx-session', false);
-    if(sess && sess.value){
-      const {username} = JSON.parse(sess.value);
-      const res = await DataStore.get('account:'+username, true);
-      if(res && res.value){ applyAccount(JSON.parse(res.value)); showApp(); return; }
-    }
-  }catch(e){ /* no active session */ }
-  showLogin();
-}
-
-/* ============ NAV ============ */
-function goTo(page){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById('page-'+page).classList.add('active');
-  document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.toggle('active', b.dataset.page===page));
-  window.scrollTo({top:0, behavior:'smooth'});
-}
-document.getElementById('navTabs').addEventListener('click', e=>{
-  const btn = e.target.closest('button[data-page]');
-  if(btn) goTo(btn.dataset.page);
-});
-
-/* ============ CARD RENDER ============ */
-function cardHTML(p){
-  const visited = state.checkins.includes(p.id);
-  return `<div class="place-card" onclick="openModal('${p.id}')">
-      ${visited?'<div class="visited-flag">ไปแล้ว ✓</div>':''}
-      <img class="thumb" src="${p.img}" alt="${p.name}">
-      <div class="coin-badge"><span class="coin-icon"></span>${p.coins}</div>
-      <div class="place-name">${p.name}</div>
-    </div>`;
-}
-function renderCarousels(){
-  const featuredPlaces = PLACES.filter(p => p.stars >= 4.0);
-  document.getElementById('car-featured').innerHTML = featuredPlaces.map(cardHTML).join('');
-
-  const foodPlaces = PLACES
-    .filter(p => p.cat === 'food')
-    .sort((a, b) => b.coins - a.coins);
-  document.getElementById('car-food').innerHTML = foodPlaces.map(cardHTML).join('');
-
-  const templePlaces = PLACES
-    .filter(p => p.cat === 'temple')
-    .sort((a, b) => b.coins - a.coins);
-  document.getElementById('car-temple').innerHTML = templePlaces.map(cardHTML).join('');
-}
-function scrollCar(id, dir){
-  document.getElementById(id).scrollBy({left: dir*260, behavior:'smooth'});
-}
-
-/* ============ SEARCH ============ */
-let filters = {cat:'all', dist:null, star:0, zone:0};
-function renderCatChips(){
-  const cats = ['all','natural','temple','food','village'];
-  document.getElementById('catChips').innerHTML = cats.map(c=>{
-    const label = c==='all' ? 'ทั้งหมด' : CATEGORY_LABEL[c];
-    return `<button class="chip ${filters.cat===c?'selected':''}" data-cat="${c}">${label}</button>`;
-  }).join('');
-}
-document.getElementById('catChips').addEventListener('click', e=>{
-  const b = e.target.closest('.chip'); if(!b) return;
-  filters.cat = b.dataset.cat; renderCatChips();
-});
-document.getElementById('distChips').addEventListener('click', e=>{
-  const b = e.target.closest('.chip'); if(!b) return;
-  filters.dist = (filters.dist===b.dataset.dist) ? null : b.dataset.dist;
-  document.querySelectorAll('#distChips .chip').forEach(c=>c.classList.toggle('selected', c.dataset.dist===filters.dist));
-});
-document.getElementById('starChips').addEventListener('click', e=>{
-  const b = e.target.closest('.chip'); if(!b) return;
-  filters.star = Number(b.dataset.star);
-  document.querySelectorAll('#starChips .chip').forEach(c=>c.classList.toggle('selected', Number(c.dataset.star)===filters.star));
-});
-document.getElementById('zoneChips').addEventListener('click', e=>{
-  const b = e.target.closest('.chip'); if(!b) return;
-  filters.zone = Number(b.dataset.zone);
-  document.querySelectorAll('#zoneChips .chip').forEach(c=>c.classList.toggle('selected', Number(c.dataset.zone)===filters.zone));
-});
-function runSearch(){
-  let list = PLACES.filter(p=>{
-
-    if(filters.cat !== 'all' && p.cat !== filters.cat) return false;
-    
-
-    if(filters.dist === 'near' && !(p.dist <= 5)) return false;
-    if(filters.dist === 'mid' && !(p.dist >= 6 && p.dist <= 10)) return false;
-    if(filters.dist === 'far' && !(p.dist >= 11)) return false;
-    
-  
-    if(p.stars < filters.star) return false;
-    
-
-    if(filters.zone !== null && filters.zone !== undefined) {
-    const selectedZoneName = ZONE_LABEL[filters.zone];
-      if (p.zone !== filters.zone && p.zone !== selectedZoneName) return false;
-    }
-
-    return true;
-  });
-
-  list.sort((a,b) => b.stars - a.stars);
-
-  const grid = document.getElementById('searchResults');
-  grid.innerHTML = list.length ? list.map(p=>`<div class="place-card grid-card" onclick="openModal('${p.id}')">
-      <img class="thumb" src="${p.img}" alt="${p.name}">
-      <div class="coin-badge"><span class="coin-icon"></span>${p.coins}</div>
-      <div class="place-name">${p.name}</div>
-    </div>`).join('') : `<div class="empty-note">ไม่พบสถานที่ที่ตรงกับตัวกรอง ลองปรับเงื่อนไขใหม่อีกครั้ง</div>`;
-}
-
-/* ============ MODAL ============ */
-function openModal(id){
-  const p = PLACES.find(x=>x.id===id);
-  const isFav = state.favorites.includes(id);
-  const visited = state.checkins.includes(id);
-  document.getElementById('modalPhotoArea').innerHTML = `
-    <div class="close-x" onclick="closeModal()">✕</div>
-    <img src="${p.img}" alt="${p.name}">`;
-  document.getElementById('modalBody').innerHTML = `
-    <div class="modal-top-row">
-      <span class="pill">⭐ ${p.stars.toFixed(1)} / 5</span>
-      <span class="pill">🚩 ${p.dist} กม.</span>
-      <span class="pill">💰 ${p.price}</span>
-      <span class="pill">📍 ${p.zone}</span>
-      <span class="pill" style="background:var(--gold-light); border-color:var(--gold-dark);"><span class="coin-icon" style="display:inline-block;vertical-align:-2px;margin-right:6px;"></span>${p.coins} เหรียญ + ${p.xp} EXP</span>
-    </div>
-    <h2 class="modal-title">${p.name}</h2>
-    ${p.alias ? `<div style="color:var(--gold-dark); font-weight:600; margin-bottom:8px;">🎖️ ฉายาเฉพาะ: ${p.alias}</div>` : ''}
-    <div class="modal-desc">${p.desc}</div>
-    <div class="stat-row">
-      <div class="stat-box">หมวดหมู่<b>${CATEGORY_LABEL[p.cat]}</b></div>
-      <div class="stat-box">ระยะทางโดยประมาณ<b>${p.dist} กม. จากตัวเมือง</b></div>
-      <div class="stat-box">สถานะ<b>${visited?'เช็คอินแล้ว ✓':'ยังไม่เคยไป'}</b></div>
-    </div>
-    <div class="modal-actions">
-      <button class="btn btn-fav ${isFav?'active':''}" onclick="toggleFav('${p.id}')">${isFav?'★ อยู่ในรายการโปรด':'☆ เพิ่มรายการโปรด'}</button>
-      <button class="btn btn-drive" onclick="driveTo(${p.lat},${p.lng},'${p.name.replace(/'/g,"")}')">🚗 นำทางไปเลย</button>
-      <button class="btn btn-checkin" id="checkinBtn" ${visited?'disabled':''} onclick="checkIn('${p.id}')">${visited?'รับรางวัลแล้ว ✓':'✅ เช็คอิน รับเหรียญ+EXP'}</button>
-    </div>
-  `;
-  document.getElementById('modalOverlay').classList.add('open');
-}
-function closeModal(){ document.getElementById('modalOverlay').classList.remove('open'); }
-
-function toggleFav(id){
-  const i = state.favorites.indexOf(id);
-  if(i>-1) state.favorites.splice(i,1); else state.favorites.push(id);
-  saveState(); openModal(id); refreshAll();
-}
-function driveTo(lat,lng,name){
-  const url = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
-  window.open(url, '_blank');
-  showToast('เปิดเส้นทางไป '+name+' ใน Google Maps แล้ว');
-}
-function checkIn(id){
-  if(state.checkins.includes(id)) return;
-  const p = PLACES.find(x=>x.id===id);
-  state.checkins.push(id);
-  state.coins += p.coins;
-  addXP(p.xp);
-  saveState();
-  openModal(id);
-  refreshAll();
-  showToast(`เช็คอินสำเร็จ! +${p.coins} เหรียญ, +${p.xp} EXP`);
-}
-function addXP(amount){
-  state.xp += amount;
-  while(state.xp >= xpNeeded(state.level)){
-    state.xp -= xpNeeded(state.level);
-    state.level += 1;
-    showToast(`🎉 เลเวลอัป! ตอนนี้คุณคือ Lv.${state.level}`);
-  }
-}
-
-/* ============ ACTIVITIES ============ */
-function renderEvents(){
-  const withEvents = PLACES.filter(p=>p.event);
-  const el = document.getElementById('eventsList');
-  el.innerHTML = withEvents.length ? withEvents.map(p=>`
-    <div class="event-card">
-      <img src="${p.img}" alt="${p.name}">
-      <div class="event-info">
-        <h3>${p.name}</h3>
-        <p>${p.event.desc}</p>
-      </div>
-    </div>`).join('') : `<div class="no-event">ยังไม่มีกิจกรรมพิเศษในช่วงนี้ กลับมาเช็คใหม่เร็วๆ นี้</div>`;
-}
-
-/* ============ REDEEM ============ */
 function renderRedeem(){
   document.getElementById('redeemCoins').textContent = state.coins;
   document.getElementById('rewardGrid').innerHTML = REWARDS.map(r=>{
@@ -1224,111 +1956,23 @@ function redeem(id){
   showToast(`แลกรับ "${r.name}" สำเร็จ!`);
 }
 
-/* ============ SHOP page ============ */
 function renderShopGrid(){
+  if (typeof PLACES === 'undefined') return;
   document.getElementById('shopGrid').innerHTML = PLACES.filter(p=>p.cat==='food').map(cardHTML).join('');
 }
 
-/* ============ PROFILE ============ */
-function currentTitle(){
-  let t = TITLES[0];
-  TITLES.forEach(x=>{ if(state.level >= x.min) t = x; });
-  return t.name;
-}
-function renderProfile(){
-  document.getElementById('bigAvatar').src = state.avatar;
-  document.getElementById('chipAvatar').src = state.avatar;
-  document.getElementById('lvTag').textContent = 'LV.'+state.level;
-  document.getElementById('chipLv').textContent = 'Lv.'+state.level;
-  const need = xpNeeded(state.level);
-  document.getElementById('xpBar').style.width = Math.min(100, (state.xp/need)*100)+'%';
-  document.getElementById('xpText').textContent = `${state.xp} / ${need}`;
-  document.getElementById('playerTitle').textContent = currentTitle();
-  document.getElementById('usernameTag').textContent = currentUser ? ('@'+currentUser.username) : '';
+const REWARDS = [
+  {id:'r1', name:'ส่วนลดค่าที่พัก 10%', cost:100},
+  {id:'r2', name:'คูปองกาแฟฟรี 1 แก้ว', cost:40},
+  {id:'r3', name:'เสื้อยืดที่ระลึกแอ่วเชียงใหม่', cost:250},
+  {id:'r4', name:'ส่วนลดค่าเช่ารถ 15%', cost:150}
+];
 
-  const visitedCount = state.checkins.length;
-  document.getElementById('playerDesc').textContent = visitedCount===0
-    ? 'ยังไม่เคยเช็คอินที่ไหนเลย ลองเริ่มออกเดินทางแล้วกลับมาปลดฉายาที่นี่กันเถอะ!'
-    : `เดินทางมาแล้ว ${visitedCount} สถานที่ สะสมเหรียญได้ ${state.coins} เหรียญ — เก็บให้ครบทุกหมวดเพื่อปลดฉายาใหม่!`;
-
-  // title badges based on category counts & specific place aliases
-  const catCounts = {};
-  const badges = [];
-  state.checkins.forEach(id=>{
-    const p = PLACES.find(x=>x.id===id);
-    if(p) {
-      catCounts[p.cat]=(catCounts[p.cat]||0)+1;
-      if(p.alias) badges.push(`🎖️ ${p.alias}`);
-    }
-  });
-
-  if((catCounts.temple||0) >= 1) badges.push('🙏 ผู้แสวงบุญ');
-  if((catCounts.natural||0) >= 2) badges.push('🌿 นักธรรมชาตินิยม');
-  if((catCounts.food||0) >= 2) badges.push('🍜 นักชิมล้านนา');
-  if(state.favorites.length >= 3) badges.push('💛 คอลเลกเตอร์');
-  if(visitedCount >= PLACES.length) badges.push('🏆 พิชิตเชียงใหม่');
-
-  document.getElementById('titleBadges').innerHTML = badges.length
-    ? badges.map(b=>`<div class="badge-pill">${b}</div>`).join('')
-    : `<div class="badge-pill" style="opacity:.6;">ยังไม่มีฉายา — ไปเที่ยวเพื่อปลดล็อกกันเลย!</div>`;
-
-  renderAchievements();
-}
-function renderAchievements(){
-  const filterVal = document.getElementById('achieveFilter').value;
-  const list = document.getElementById('achieveList');
-  let items = [];
-  if(filterVal==='favorite'){
-    items = state.favorites.map(id=>PLACES.find(p=>p.id===id)).filter(Boolean);
-  } else if(filterVal==='all'){
-    items = state.checkins.map(id=>PLACES.find(p=>p.id===id)).filter(Boolean);
-  } else {
-    items = state.checkins.map(id=>PLACES.find(p=>p.id===id)).filter(p=>p && p.cat===filterVal);
-  }
-  list.innerHTML = items.length
-    ? items.map(p=>`<div class="achieve-item"><span>${p.name} ${p.alias ? `<br><small style="color:var(--gold); font-size:11px;">[ฉายา: ${p.alias}]</small>` : ''}</span><span class="cnt">+${p.coins}🪙</span></div>`).join('')
-    : `<div class="achieve-item" style="justify-content:center; opacity:.6;">ยังไม่มีข้อมูลในหมวดนี้</div>`;
-}
-
-/* ============ TOAST ============ */
-let toastTimer;
-function showToast(msg){
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(()=>t.classList.remove('show'), 2600);
-}
-
-/* ============ REFRESH ALL ============ */
-function refreshAll(){
-  renderCarousels();
-  renderCatChips();
-  renderEvents();
-  renderRedeem();
-  renderShopGrid();
-  renderProfile();
-}
-
-function initAiPage(){
-  renderAiQuickPrompts();
-  const note = document.getElementById('aiSetupNote');
-  if(!AI_ENDPOINT){
-    note.style.display = 'block';
-    note.textContent = '⚠️ ยังไม่ได้เชื่อมต่อเซิร์ฟเวอร์ AI — ตอนนี้แชทนี้ยังใช้งานไม่ได้จริง ทำตามคู่มือ DEPLOY_GUIDE.md เพื่อเปิดใช้งาน AI จริง';
-  } else {
-    note.style.display = 'none';
-  }
-  if(chatHistory.length === 0){
-    appendChatBubble('ai', 'สวัสดีครับ! ผมแอ่วบอท ผู้ช่วยแนะนำเที่ยวเชียงใหม่ ลองถามผมได้เลยว่าอยากไปเที่ยวแบบไหน 😊');
-    chatHistory.push('init');
-  }
-}
+// INITIALIZE APP & REALTIME CHAT
 initAiPage();
+initSupabaseRealtime();
 initApp();
+
 </script>
-
-<script src="https://cdn.example-ai.com/widget.js" data-ai-id="123456" async></script>
-
 </body>
 </html>
