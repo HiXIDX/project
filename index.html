@@ -184,6 +184,26 @@
 
   .profile-chip .lv{font-size:12px; font-weight:600; color:var(--ink-soft);}
 
+  /* ADMIN & SPECIAL FRAME STYLE */
+  .admin-frame {
+    border: 3px solid #ff4757 !important;
+    background: linear-gradient(135deg, rgba(255, 71, 87, 0.1), rgba(255, 165, 2, 0.1)) !important;
+    box-shadow: 0 0 15px rgba(255, 71, 87, 0.4) !important;
+  }
+  
+  .admin-badge {
+    background: #ff4757;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 8px;
+    margin-left: 6px;
+    display: inline-block;
+    vertical-align: middle;
+    box-shadow: 0 2px 5px rgba(255, 71, 87, 0.4);
+  }
+
   nav.tabs{
     display:flex; gap:6px; margin-top:12px; overflow-x:auto; padding-bottom:2px;
   }
@@ -1750,6 +1770,22 @@ function refreshAll(){
   renderRedeem();
   renderShopGrid();
   renderProfile();
+
+  // ตรวจสอบยศ Admin สำหรับ HiXI และ Yabby67
+  if (currentUser) {
+    const username = currentUser.username.toLowerCase();
+    const profileChip = document.querySelector('.profile-chip');
+    const usernameTag = document.getElementById('usernameTag');
+
+    if (username === 'hixi' || username === 'yabby67') {
+      if (profileChip) profileChip.classList.add('admin-frame');
+      if (usernameTag && !document.getElementById('adminBadgeTag')) {
+        usernameTag.innerHTML = `@${currentUser.username} <span class="admin-badge" id="adminBadgeTag">🛡️ ADMIN</span>`;
+      }
+    } else {
+      if (profileChip) profileChip.classList.remove('admin-frame');
+    }
+  }
 }
 
 const TITLES = [
